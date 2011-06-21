@@ -17,10 +17,10 @@ mobilens.orderList = new Ext.List( {
 	itemTpl: mobilens.xTplOrdersPrimaryPortrait,
         
 	onItemTap: function(dv, index, item) {
-      	var myR = this.store.data.items[index];
+        var myR = this.store.data.items[index];
     
-      	if (item.getTarget('.itemCount') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
-      		{   
+        if (item.getTarget('.itemCount') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
+            {
       			if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
       				{myR.set('isSelected',''); }
       			else
@@ -92,7 +92,7 @@ mobilens.userNameField = new Ext.form.Text({
 	label: 'User Name',
 	autoCapitalize : false,
 	required: true,
-	useClearIcon: true,
+	useClearIcon: true
 });
 
 mobilens.passwordField = new Ext.form.Password({
@@ -100,7 +100,7 @@ mobilens.passwordField = new Ext.form.Password({
 	label: 'Password',
 	autoCapitalize : false,
 	required: true,
-	useClearIcon: true,
+	useClearIcon: true
 });
 
 mobilens.daysOfHistorySlider = new Ext.form.Slider({
@@ -112,8 +112,8 @@ mobilens.daysOfHistorySlider = new Ext.form.Slider({
 			//console.log('slider changed to : ' + z);
 			mobilens.storeDaysOfHistory.removeAll(); 
 			mobilens.storeDaysOfHistory.add({isSelected: z,customerName: mobilens.SAMuserStore.first().get('lastResponse') }); 
-		}
-		,change: function(field,newval,oldval){
+		},
+		change: function(field,newval,oldval){
 			//console.log('Days Of History changed to : ' + newval.value);
 			field.label = newval.value;
 			
@@ -157,7 +157,7 @@ mobilens.daysOfHistoryList = new Ext.List( {
 			this.itemTpl = mobilens.xTplDaysOfHistory; 
 			this.initComponent();
 			this.refresh();
-		};
+		}
 	}
 });
 
