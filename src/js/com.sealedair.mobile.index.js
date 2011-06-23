@@ -226,10 +226,10 @@ mobilens.userPanel = new Ext.Panel({
 	items: [{
 		xtype: 'form',
 		id: 'userform',
-		items: [mobilens.userNameField
-		        , mobilens.passwordField
-		        , mobilens.daysOfHistorySlider
-		        ,mobilens.daysOfHistoryList
+		items: [mobilens.userNameField,
+		        mobilens.passwordField,
+		        mobilens.daysOfHistorySlider,
+		        mobilens.daysOfHistoryList
 		        ]
 	}],
 	
@@ -245,7 +245,7 @@ mobilens.userPanel = new Ext.Panel({
 			mobilens.daysOfHistorySlider.setValue( mobilens.SAMuserStore.first().get('numOfDays') );
 			}
 		else
-			{ 	
+			{
 			mobilens.cancelButton = '1';
 			this.hide();
 			}
@@ -294,12 +294,12 @@ mobilens.filterPanel = new Ext.Panel({
 
 
 					db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-			    			function (transaction, resultSet) {
+                            function (transaction, resultSet) {
 								//Ext.getBody().mask('<div class="SAMprogress"></div>','data-loading',true);
 								mobilens.orderList.refreshDisplay('hideOrders' );
 								
 								db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-						    			function (transaction, resultSet) {
+                                        function (transaction, resultSet) {
 											mobilens.storeSAPOrders.clearFilter();
 											mobilens.storeSAPShipToCustomers.filter('isSelected','1');
 											mobilens.storeSAPOrders.each(function(Orecord){
@@ -319,13 +319,11 @@ mobilens.filterPanel = new Ext.Panel({
 															if( Orecord.get('isShipToFiltered')=='1' )
 															{
 																console.log('removing filter for : ' + Srecord.get('firstName') );
-																Orecord.set('isShipToFiltered','')
+																Orecord.set('isShipToFiltered','');
 															}
 														}
 													}
-           	        							//mobilens.storeSAPOrders.filter('shipToName', record.get("firstName"));
-           	        							//mobilens.storeSAPOrders.filter('shipToName', [{'EVANS/EVCO','A J MAGLIO & BROS'}]);
-           	        						});	
+                                            });	
 											});
 											        	        		   			            	        					
            	        					db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
@@ -351,7 +349,7 @@ mobilens.filterPanel = new Ext.Panel({
 					mobilens.storeSAPShipToCustomers.filter('isSelected','1');
 					mobilens.storeSAPShipToCustomers.each(function(clrRecord){
 						clrRecord.set('isSelected','');
-					})
+					});
 					
 					mobilens.storeSAPShipToCustomers.clearFilter();
 					mobilens.filterPanel.hide();
