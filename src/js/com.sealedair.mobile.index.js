@@ -166,7 +166,7 @@ mobilens.userSaveButton = new Ext.Button({
 	ui: 'action',
 	handler: function() 
 		{
-		
+		alert('from Cloud9IDE');
 		mobilens.daysOfHistoryList.refreshDisplay('hide');
 		db.transaction(function(transaction){transaction.executeSql('SELECT "now"', [],
 				function (transaction, resultSet) {
@@ -192,7 +192,7 @@ mobilens.userSaveButton = new Ext.Button({
 							});
 							}
 						else
-							{ 	mobilens.storeDaysOfHistory.removeAll(); 
+							{   mobilens.storeDaysOfHistory.removeAll(); 
 								mobilens.storeDaysOfHistory.add({isSelected: mobilens.daysOfHistorySlider.getValue(),customerName:mobilens.SAMuserStore.first().get('lastResponse') });
 								mobilens.daysOfHistoryList.refreshDisplay('');
 							}
@@ -218,9 +218,9 @@ mobilens.userPanel = new Ext.Panel({
 	},{
 		dock: 'bottom',
 		xtype: 'toolbar',
-		items: [mobilens.userCancelButton
-		        ,{xtype: 'spacer'}
-				,mobilens.userSaveButton]
+		items: [mobilens.userCancelButton,
+		        {xtype: 'spacer'},
+				mobilens.userSaveButton]
 	}],
 
 	items: [{
