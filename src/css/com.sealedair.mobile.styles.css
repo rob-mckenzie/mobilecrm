@@ -182,7 +182,7 @@ height:2.4em;
 	no-repeat;
 	-webkit-mask-size:2.41em;
 	//background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #61abeb), color-stop(2%, #1979cd), color-stop(100%, #fdfdac));
-	background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #fffc00), color-stop(2%, #fffc00), color-stop(100%, #fffc00));
+	background-image:-webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0%, #ffcc33), color-stop(2%, #ffcc33), color-stop(100%, #ffcc33));
 	width:2.41em;
 	height:2.41em;
 	text-align:center;
