@@ -166,6 +166,7 @@ mobilens.userSaveButton = new Ext.Button({
 	ui: 'action',
 	handler: function() 
 		{
+            
 		mobilens.daysOfHistoryList.refreshDisplay('hide');
 		db.transaction(function(transaction){transaction.executeSql('SELECT "now"', [],
 				function (transaction, resultSet) {
