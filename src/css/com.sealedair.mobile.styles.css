@@ -424,9 +424,9 @@ height:2.4em;
 	border-bottom: 1px solid #fff;
 	//color: #669;
 	//color: #000000;
-    border-color:#b9c9fe;
-	border-top: 1px solid transparent;
-	border-right: 1px solid #fff;
+    color: #000000;
+	border-color:transparent;
+	border-top: 1px solid #e8edff;
 	text-align: center;
 }
 
