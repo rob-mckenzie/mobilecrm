@@ -5,7 +5,7 @@ Date.prototype.adjust = function(yr,mn,dy,hr,mi,se) {
 var m,t;
 this.setYear(this.getFullYear() + yr);
 m = this.getMonth() + mn;
-if(m != 0) this.setYear(this.getFullYear() + Math.floor(m/12));
+if(m !== 0) this.setYear(this.getFullYear() + Math.floor(m/12));
 if(m < 0) {
 this.setMonth(12 + (m%12));
 } else if(m > 0) {
@@ -28,17 +28,15 @@ function stringSegmentation( sourceData, segLen, sepChar ){
 		 var myC = sourceData.slice(x,x+1);
 		 
 		 if ( myC == sepChar )
-			 { counter = 1 }
+			 { counter = 1; }
 		 else
-			 { if( counter==segLen)
-				 {
-				 myC += sepChar;
-				 counter = 1;
-				 }
-			 	else
-			 	 {
-			 		counter += 1;
-			 	 }
+			 {  if( counter==segLen)
+                    {
+                        myC += sepChar;
+                        counter = 1;
+                    }
+                else
+                    { counter += 1; }
 			 }
 		 segmentedReturn += myC;
 		}
@@ -52,7 +50,7 @@ function removeTrailingDecimalZero( sourceData ){
 		var trimZeros = sourceData.replace(/0+$/, '');
 		var trimDecimal = trimZeros.replace(/\.+$/, '');
 		var finalOut = '';
-		if( trimDecimal=='')
+		if( trimDecimal==='')
 			{ finalOut = '0'; }
 		else
 			{ finalOut = trimDecimal; }
@@ -62,12 +60,12 @@ function removeTrailingDecimalZero( sourceData ){
 		{ // if there is no decimal in the string do no remove any trailing zeros 
 		return sourceData;
 		}
-};
+}
 
 function removeLeadingZero( sourceData ){
 	var trimZeros = sourceData.replace(/^[0]+/g,"");
 	return trimZeros;
-};
+}
 
 function htmlSpacePadding( cLen, rSym ){
 	var myR = '';
@@ -78,10 +76,10 @@ function htmlSpacePadding( cLen, rSym ){
 		myR += rSym;
 		}
 	
-	if (myR == '' )
-		{ return myR }
+	if (myR === '' )
+		{ return myR; }
 	else
-		{ return myR + '<br>' }
+		{ return myR + '<br>'; }
 }
 
 
@@ -277,31 +275,31 @@ mobilens.xTplOrdersPrimaryPortrait = '<tpl for="."><div class="colmask doublepag
 mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" border=1 align=center width=100%>'+
 '<table id="box-table-a" summary="">'+
 '<caption>'+
-'<tpl if="trackingURL != \'\' && trackingURL != \'NA\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
+'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
 '<tpl if="trackingNo != \'\'"> {trackingNo} </tpl>'+
 '<tpl if="trackingNo == \'\'">Click Here To Track </tpl>'+
 '</a><br></div></tpl>'+
 
 '</caption><thead>'+
 '<tr>'+
-'<th scope="col">DeliveryNo</td>'+
-'<th scope="col">Position</td>'+
-'<th scope="col">ObjectId</td>'+
-'<th scope="col">Carrier</td>'+
-'<th scope="col">Actual Ship Date</td>'+
-'<th scope="col">Planned Ship Date</td>'+
-'<th scope="col">Qty UOM</td>'+
+'<th scope="col" class="detailTH">DeliveryNo</td>'+
+'<th scope="col" class="detailTH">Position</td>'+
+'<th scope="col" class="detailTH">ObjectId</td>'+
+'<th scope="col" class="detailTH">Carrier</td>'+
+'<th scope="col" class="detailTH">Actual Ship Date</td>'+
+'<th scope="col" class="detailTH">Planned Ship Date</td>'+
+'<th scope="col" class="detailTH">Qty UOM</td>'+
 '</tr>'+
 '</thead>'+
 
 '<tr>'+
-'<td>{deliveryNo}</td>'+
-'<td>{deliveryPosition}</td>'+
-'<td>{objectId}</td>'+
-'<td>{carrier}</td>'+
-'<td>{actualShippingDate}</td>'+
-'<td>{plannedSippingtDate}</td>'+
-'<td>{quantity} {unitOfMeasurement}</td>'+
+'<td class="detailTD">{deliveryNo}</td>'+
+'<td class="detailTD">{deliveryPosition}</td>'+
+'<td class="detailTD">{objectId}</td>'+
+'<td class="detailTD">{carrier}</td>'+
+'<td class="detailTD">{actualShippingDate}</td>'+
+'<td class="detailTD">{plannedSippingtDate}</td>'+
+'<td class="detailTD">{quantity} {unitOfMeasurement}</td>'+
 '</tr></table>'+
 '</tpl>';
 
