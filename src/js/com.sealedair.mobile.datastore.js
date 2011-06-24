@@ -5,10 +5,10 @@
 /* **************************************************************** */
 
 var theDomain = document.domain;
-if( theDomain === 'localhost')
-	{ mobilens.hostname = 'https://sapecomdev.sealedair.com:443' }
+if( theDomain.substr(-7) != 'air.com')
+	{ mobilens.hostname = 'https://sapecomdev.sealedair.com:443'; }
 else
-	{ mobilens.hostname = 'https://'+theDomain+':443' }
+	{ mobilens.hostname = 'https://'+theDomain+':443'; }
 
 
 
