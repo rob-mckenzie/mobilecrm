@@ -122,9 +122,9 @@ mobilens.xTplOrdersPrimaryLandscape = '<tpl for="."><div class="colmask doublepa
 '<!-- Column 2 start -->'+ 
 ' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
 ' <p><span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="xTplSoldTo">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span></p>'+
-' <p><span class="headerLabel">Cust Ref:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
-' <span class="headerLabel">Document Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 '<tpl if="orderDisclose==1">'+
 '<div class="item-detail-radius">'+
 
@@ -214,7 +214,7 @@ mobilens.xTplOrdersPrimaryPortrait = '<tpl for="."><div class="colmask doublepag
 '<!-- Column 2 start -->'+ 
 ' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
 ' <p><span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="xTplSoldTo">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span></p>'+
-' <p><span class="headerLabel">Cust Ref:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Document Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 '<tpl if="orderDisclose==1">'+
