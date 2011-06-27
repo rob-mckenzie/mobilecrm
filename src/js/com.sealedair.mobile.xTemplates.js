@@ -95,7 +95,7 @@ mobilens.xTplOrdersPrimaryLandscape = '<tpl for="."><div class="colmask doublepa
 ' <tpl if="hasItems!=1 && isSelected!=1"><div class="headerItemCounter">{itemCount}</div></tpl>'+
 ' <tpl if="hasItems==1 && isSelected!=1"><div class="headerItemCounterHasItems">{itemCount}</div></tpl>'+
 '</div>'+
-'</td><td align=right width=60%>'+
+'</td><td align=right width=60% >'+
 '<tpl if="orderDisclose!=1">'+
 '<tpl if="orderDisclose!=3">'+
 '<div class="expand"></div></tpl>'+

@@ -10,10 +10,10 @@ mobilens.orderList = new Ext.List( {
 	cls: 'demo-list',
 	width: Ext.Element.getViewportWidth(), //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
 	height: Ext.Element.getViewportHeight(), // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),   
-	mode: 'SINGLE',
-	
+	//mode: 'SINGLE',
+    disableSelection:true,
 	store: mobilens.storeSAPOrders,
-	selectedItemCls: 'does not exist',  // use this as a css class for selected records
+	//selectedItemCls: 'x-list-noSelect', //'does not exist',  // use this as a css class for selected records
 	itemTpl: mobilens.xTplOrdersPrimaryPortrait,
         
 	onItemTap: function(dv, index, item) {
@@ -566,7 +566,12 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
           	        	   		name: 'myroboptions',
           	        	   		listeners: {
           	        	   			change: function(e, v){
-          	        	   				if( v != '') {mobilens.storeSAPOrders.sort(v,'ASC');}
+          	        	   				if( v != '') {
+                                                 if ( v==='requestedDeliveryDate' )
+                                                    { mobilens.storeSAPOrders.sort(v,'DESC'); }
+                                                 else
+                                                    { mobilens.storeSAPOrders.sort(v,'ASC'); }
+                                                 }
           	        	   				},
           	        	   			scope: this
           	        	   		},

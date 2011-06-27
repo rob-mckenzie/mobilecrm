@@ -6,7 +6,7 @@
 
 var theDomain = document.domain;
 if( theDomain.substr(-7) != 'air.com')
-	{ mobilens.hostname = 'https://sapecomdev.sealedair.com:443'; }
+	{ mobilens.hostname = 'https://sapecomtest.sealedair.com:443'; } // sapecomdev.sealedair.com:443'; }
 else
 	{ mobilens.hostname = 'https://'+theDomain+':443'; }
 
@@ -233,11 +233,9 @@ Ext.regModel('modelSapOrders2',{
 	],
 	
 	transferData: function(recIndex){
-		console.log('calling transferData routine');
-
+		//console.log('calling transferData routine');
 		
 		var thisRec = mobilens.storeSAPOrders.getAt(parseInt(recIndex));
-		
 
 		thisRec.set('payerAddress', this.get('payerAddress') );
 		thisRec.set('totalOrderVolume', this.get('totalOrderVolume') );
@@ -245,11 +243,7 @@ Ext.regModel('modelSapOrders2',{
 		thisRec.set('totalOrderWeight', this.get('totalOrderWeight') );
 		thisRec.set('totalOrderWeightUOM', this.get('totalOrderWeightUOM') );
 		thisRec.set('shipCond', this.get('shipCond') );
-		
-		
 	}
-
-
 });
 
 Ext.regModel('modelSAPOrders', {
