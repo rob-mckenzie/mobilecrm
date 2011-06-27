@@ -20,7 +20,7 @@ this.setTime(t);
 };
 
 function stringSegmentation( sourceData, segLen, sepChar ){
-	var segmentedReturn = '';
+    var segmentedReturn = '';
 	var counter = 1;
 	
 	for ( var x=0;x<sourceData.length;x++)
@@ -273,8 +273,8 @@ mobilens.xTplOrdersPrimaryPortrait = '<tpl for="."><div class="colmask doublepag
 
 
 mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" border=1 align=center width=100%>'+
-'<table id="box-table-a" summary="">'+
-'<caption>'+
+'<table  table align=center width=100% border=0 class="detailT" >'+
+'<caption class="detailC">'+
 '<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
 '<tpl if="trackingNo != \'\'"> {trackingNo} </tpl>'+
 '<tpl if="trackingNo == \'\'">Click Here To Track </tpl>'+
