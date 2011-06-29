@@ -1,4 +1,4 @@
-
+mobilens.orderSort = '';
 
 /* **************************************************************** */
 /*                  Target Web Service Domain Determination         */
@@ -364,14 +364,14 @@ Ext.regModel('modelSAPOrders', {
 Ext.regModel('SAMUser', {
     fields: ['userName', 'password','lastUpdated', 'numOfDays', 'lastResponse'],
     refreshResponse: function() {
-    	var myD = new Date();
-    	var myName = this.get('userName');
-    	var myPassword = this.get('password');
-    	var myResponse = this.get('lastResponse');
-    	var daysOfHistory = this.get('numOfDays');
-    	
-		db.transaction(function(transaction){transaction.executeSql('DELETE FROM tblLogin',[],[],db.onError)});					
-		db.transaction(function(transaction){transaction.executeSql('INSERT INTO tblLogin (username, password, refreshed, lastResponse, daysOfHistory) VALUES (?,?,?,?,?)',[myName,myPassword,myD,myResponse,daysOfHistory],[],db.onError)});
+        var myD = new Date();
+        var myName = this.get('userName');
+        var myPassword = this.get('password');
+        var myResponse = this.get('lastResponse');
+        var daysOfHistory = this.get('numOfDays');
+
+        db.transaction(function(transaction){transaction.executeSql('DELETE FROM tblLogin',[],[],db.onError)});					
+        db.transaction(function(transaction){transaction.executeSql('INSERT INTO tblLogin (username, password, refreshed, lastResponse, daysOfHistory) VALUES (?,?,?,?,?)',[myName,myPassword,myD,myResponse,daysOfHistory],[],db.onError)});
     }
 });
 
@@ -393,7 +393,7 @@ mobilens.storeSAPShipToCustomers = new Ext.data.Store({
 	sorters: 'firstName',
 	getGroupString : function(record) {
 		return record.get('firstName')[0];
-	},
+	}
 });
 
 
@@ -412,18 +412,35 @@ mobilens.storeDaysOfHistory = new Ext.data.Store({
 
 mobilens.storeMessages = new Ext.data.Store({
     model: 'modelMessageStore',
+    
+    getGroupString : function(record) {
+        return 'A';
+	}
 });
 
 mobilens.storeSAPOrders = new Ext.data.Store({
 	model: 'modelSAPOrders',
-	sorters: 'documentNumber',
-	storeId: 'primaryOrderDisplay',
+    
 	getGroupString : function(record) {
-		return record.get('documentNumber')[0];
-	},
+        
+        var retVal = 'A';
+        
+        switch( mobilens.orderSort )
+        {
+        case '':
+            retVal = record.get('soldToName').substr(0,2);
+            break;
+        case 'requestedDeliveryDate': case 'documentDate':
+            retVal = record.get(mobilens.orderSort).substr(0,10);        
+            break;
+        default:
+            retVal = record.get(mobilens.orderSort).substr(0,2);
+            break;
+        }
+        
+		return retVal;
+	}
 });
-
-
 
 /* **************************************************************** */
 /*                  Store Defaults                                  */

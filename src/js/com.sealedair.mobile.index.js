@@ -15,33 +15,37 @@ mobilens.orderList = new Ext.List( {
 	store: mobilens.storeSAPOrders,
 	//selectedItemCls: 'x-list-noSelect', //'does not exist',  // use this as a css class for selected records
 	itemTpl: mobilens.xTplOrdersPrimaryPortrait,
-        
+            grouped: true,
+            indexBar: true,
+
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
     
         if (item.getTarget('.itemCount') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
             {
-      			if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
-      				{myR.set('isSelected',''); }
-      			else
-      				{myR.set('isSelected','1'); }
-      		} ;
-      		
-      	if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
-      		{	
-      			myR.set('orderDisclose','1');
-      		};
+                if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
+                    {myR.set('isSelected',''); }
+                else
+                    {myR.set('isSelected','1'); }
+            } 
 
-      	if (item.getTarget('.expanded') )
-          	{   myR.set('orderDisclose','2'); }
-      	
-      	if (item.getTarget('.detail') )
-      	{  myR.set('itemUpdate','1'); }
+        if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
+            {	
+                myR.set('orderDisclose','1');
+            }
+
+        if (item.getTarget('.expanded') )
+            {   myR.set('orderDisclose','2'); }
+
+        if (item.getTarget('.detail') )
+        {  myR.set('itemUpdate','1'); }
       },
       
-  	monitorOrientation: true,
-  	
-  	refreshDisplay: function(listAction){
+      
+    monitorOrientation: true,
+
+
+    refreshDisplay: function(listAction){
 
 		switch( listAction )
 		{
@@ -52,7 +56,8 @@ mobilens.orderList = new Ext.List( {
 			this.refresh();
 			break;
 		default:
-  			this.bindStore(mobilens.SAMuserStore);
+            //this.bindStore(mobilens.SAMuserStore);
+            this.bindStore(mobilens.storeMessages);
 			if( Ext.orientation == 'landscape')
 				{ this.itemTpl = mobilens.xTplOrdersPrimaryLandscape;  }
 	  		else	
@@ -566,8 +571,9 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
           	        	   		name: 'myroboptions',
           	        	   		listeners: {
           	        	   			change: function(e, v){
+                                        mobilens.orderSort = v;
           	        	   				if( v != '') {
-                                                 if ( v==='requestedDeliveryDate' )
+                                                 if ( v==='requestedDeliveryDate' || v==='documentDate' )
                                                     { mobilens.storeSAPOrders.sort(v,'DESC'); }
                                                  else
                                                     { mobilens.storeSAPOrders.sort(v,'ASC'); }
@@ -581,6 +587,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
          	   						        {text: ' Ship To Name', value:'shipToName'},
          	   						        {text: ' Sold To Name', value:'soldToName'},
          	   						        {text: ' Requested Delivery Date', value:'requestedDeliveryDate'},
+                                            {text: ' Document Date', value:'documentDate'},
          	   						        //{text: ' Order Status', value:'status'},
          	   						         ]
           	           },{
