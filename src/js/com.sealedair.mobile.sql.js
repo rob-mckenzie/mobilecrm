@@ -1,4 +1,5 @@
 
+
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
 
@@ -80,20 +81,21 @@ function getOrderDetail (sTarget) {
 						var returnL = resultSet.rows.length;
 						if( returnL > 0 )
 							{
-								mobilens.storeSAPOrders.data.items[parseInt(recIndex)].set('itemCount',  returnL);
-								mobilens.storeSAPOrders.data.items[parseInt(recIndex)].set('hasItems',  '1');
-								if (mobilens.storeSAPOrders.data.items[parseInt(recIndex)].get('documentNumber') == sTarget )
+								var currRec = mobilens.storeSAPOrders.data.items[parseInt(recIndex,10)];
+                                currRec.set('itemCount',  returnL);
+								currRec.set('hasItems',  '1');
+								if (currRec.get('documentNumber') == sTarget )
 									{
-										mobilens.storeSAPOrders.data.items[parseInt(recIndex)].set('orderDisclose',  '3');
+										currRec.set('orderDisclose',  '3');
 									}
 								else
 									{
-										mobilens.storeSAPOrders.data.items[parseInt(recIndex)].set('orderDisclose',  '');
+										currRec.set('orderDisclose',  '');
 									}
-								mobilens.storeSAPOrders.data.items[parseInt(recIndex)].set('isSelected',  '');
-								mobilens.storeSAPOrders.data.items[parseInt(recIndex)].set('itemUpdate',  '');
+								currRec.set('isSelected',  '');
+								currRec.set('itemUpdate',  '');
 							
-								var ascStore = mobilens.storeSAPOrders.getAt(parseInt(recIndex)).orderItems();
+								var ascStore = currRec.orderItems();
 								ascStore.removeAll();
 								
 								for (var k=0; k<resultSet.rows.length; k++) {
@@ -101,10 +103,11 @@ function getOrderDetail (sTarget) {
 										var newRecord = ascStore.add(JSON.parse([row["JSONOrderDetail"], ]));
 										newRecord[0].formatData();
 										
-										if ( k==0 ) 
+										if ( k===0 ) 
 										{
-											var crazyTrain = new Date([row["refreshed"], ] )
-											mobilens.storeSAPOrders.getAt(parseInt(recIndex)).set('itemsRefreshed', crazyTrain.getFullYear() + '-' + crazyTrain.getMonth() + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() );
+											var crazyTrain = new Date([row.refreshed ] );
+                                            //var crazyTrain = new Date([row["refreshed"], ] );
+											currRec.set('itemsRefreshed', crazyTrain.getFullYear() + '-' + crazyTrain.getMonth() + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() );
 											
 										}
 										}

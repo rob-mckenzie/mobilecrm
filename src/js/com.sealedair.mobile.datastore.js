@@ -1,3 +1,4 @@
+
 mobilens.orderSort = '';
 
 /* **************************************************************** */
@@ -6,7 +7,7 @@ mobilens.orderSort = '';
 
 var theDomain = document.domain;
 if( theDomain.substr(-7) != 'air.com')
-	{ mobilens.hostname = 'https://sapecomtest.sealedair.com:443'; } // sapecomdev.sealedair.com:443'; }
+	{ mobilens.hostname = 'https://sapecomdev.sealedair.com:443'; } // sapecomdev.sealedair.com:443'; }
 else
 	{ mobilens.hostname = 'https://'+theDomain+':443'; }
 
@@ -146,7 +147,7 @@ Ext.regModel('modelSapDetails',{
 	{name: 'numberIntTrim',     type: 'string'},
 	{name: 'productNoTrim',     type: 'string'},
 	{name: 'customerProductTrim',     type: 'string'},
-	{name: 'descriptionTrim',     type: 'string'},
+	{name: 'descriptionTrim',     type: 'string'}
 	],
 	
 	formatData: function(){
@@ -158,7 +159,13 @@ Ext.regModel('modelSapDetails',{
 		this.set('productNoTrim', stringSegmentation(this.get('productNo'),9,' ') );
 		this.set('customerProductTrim', stringSegmentation(this.get('customerProduct'),10,' ') );
 		this.set('descriptionTrim', stringSegmentation(this.get('description'),20,' ') );
- 	}
+        // attempting to allow for grouping in associated dataStore
+        this.set('documentNumber', docNum);
+        this.set('shipToName', shipName);
+        this.set('soldToName', soldName);
+        this.set('requestedDeliveryDate', reqDate);
+        this.set('documentDate', docDate);
+    }
 	
 });
 
@@ -337,13 +344,36 @@ Ext.regModel('modelSAPOrders', {
 
 	         // currently Sencha Touch does not handle more than 1 associated dataStore.  So an independent store will be used to merge data into the primary order store for Orders2 data
 		    associations:  
-		     	[ { type: 'hasMany', model: 'modelSapDetails', name: 'orderItems'} ],
+                [ { 
+                    type: 'hasMany', 
+                    model: 'modelSapDetails', 
+                    name: 'orderItems',
+                    getGroupString : function(record) {
 
-	     	formatData: function(refreshDate){
-	     		var crazyTrain = new Date( refreshDate )
-				this.set({refreshed: crazyTrain.getFullYear() + '-' + crazyTrain.getMonth() + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() });
-	     		this.set('documentNumberTrim', removeLeadingZero( this.get('documentNumber') ) );
-	     	}
+                        var retVal = 'A';
+    
+                        switch( mobilens.orderSort )
+                        {
+                        case '':
+                            retVal = record.get('soldToName').substr(0,2);
+                            break;
+                        case 'requestedDeliveryDate': case 'documentDate':
+                            retVal = record.get(mobilens.orderSort).substr(0,10);        
+                            break;
+                        default:
+                            retVal = record.get(mobilens.orderSort).substr(0,2);
+                            break;
+                        }
+        
+                        return retVal;
+                    }
+                } ],
+
+            formatData: function(refreshDate){
+                var crazyTrain = new Date( refreshDate );
+                this.set({refreshed: crazyTrain.getFullYear() + '-' + crazyTrain.getMonth() + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() });
+                this.set('documentNumberTrim', removeLeadingZero( this.get('documentNumber') ) );
+            }
 });
 
 

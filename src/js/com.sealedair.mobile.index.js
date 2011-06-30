@@ -15,7 +15,7 @@ mobilens.orderList = new Ext.List( {
 	store: mobilens.storeSAPOrders,
 	//selectedItemCls: 'x-list-noSelect', //'does not exist',  // use this as a css class for selected records
 	itemTpl: mobilens.xTplOrdersPrimaryPortrait,
-            grouped: true,
+            //grouped: true,
             indexBar: true,
 
 	onItemTap: function(dv, index, item) {
