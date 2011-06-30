@@ -150,7 +150,7 @@ Ext.regModel('modelSapDetails',{
 	{name: 'descriptionTrim',     type: 'string'}
 	],
 	
-	formatData: function(){
+	formatData: function(docNum, shipName, soldName, reqDate, docDate){
 		this.set('quantityTrim', removeTrailingDecimalZero( this.get('quantity') ) );
 		this.set('confirmedQuantityTrim', removeTrailingDecimalZero( this.get('confirmedQuantity') ) );
 		this.set('itemValueTrim', removeTrailingDecimalZero( this.get('itemValue') ) );
@@ -351,7 +351,8 @@ Ext.regModel('modelSAPOrders', {
                     getGroupString : function(record) {
 
                         var retVal = 'A';
-    
+                        alert('test');
+                        
                         switch( mobilens.orderSort )
                         {
                         case '':
@@ -365,7 +366,8 @@ Ext.regModel('modelSAPOrders', {
                             break;
                         }
         
-                        return retVal;
+                        //return retVal;
+                        return 'EV';
                     }
                 } ],
 

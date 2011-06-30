@@ -15,12 +15,12 @@ mobilens.orderList = new Ext.List( {
 	store: mobilens.storeSAPOrders,
 	//selectedItemCls: 'x-list-noSelect', //'does not exist',  // use this as a css class for selected records
 	itemTpl: mobilens.xTplOrdersPrimaryPortrait,
-            //grouped: true,
-            indexBar: true,
+    grouped: true,
+    indexBar: true,
 
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
-    
+        
         if (item.getTarget('.itemCount') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
             {
                 if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
@@ -32,10 +32,13 @@ mobilens.orderList = new Ext.List( {
         if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
             {	
                 myR.set('orderDisclose','1');
+                mobilens.storeSAPOrders.filter('orderDisclose','1');
+                this.grouped = false;
+                this.refreshDisplay('show');
             }
 
         if (item.getTarget('.expanded') )
-            {   myR.set('orderDisclose','2'); }
+            {   myR.set('orderDisclose','2'); mobilens.storeSAPOrders.clearFilter(); this.grouped = true; this.refreshDisplay('show'); }
 
         if (item.getTarget('.detail') )
         {  myR.set('itemUpdate','1'); }

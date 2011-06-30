@@ -101,7 +101,7 @@ function getOrderDetail (sTarget) {
 								for (var k=0; k<resultSet.rows.length; k++) {
 										var row = resultSet.rows.item(k);
 										var newRecord = ascStore.add(JSON.parse([row["JSONOrderDetail"], ]));
-										newRecord[0].formatData();
+                                        newRecord[0].formatData( currRec.get('documentNumber'), currRec.get('shipToName'), currRec.get('soldToName'), currRec.get('requestedDeliveryDate'), currRec.get('documentDate')  );
 										
 										if ( k===0 ) 
 										{
