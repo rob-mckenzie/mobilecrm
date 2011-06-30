@@ -37,6 +37,7 @@ mobilens.orderList = new Ext.List( {
                 this.refreshDisplay('show');
             }
 
+
         if (item.getTarget('.expanded') )
             {   myR.set('orderDisclose','2'); mobilens.storeSAPOrders.clearFilter(); this.grouped = true; this.refreshDisplay('show'); }
 
