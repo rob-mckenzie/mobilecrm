@@ -1,5 +1,4 @@
 
-
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
 
@@ -12,7 +11,7 @@ db.onSuccess = function(tx, r) {
 	  // loadTodoItems is defined in Step 4a
 	 //alert(r);
 	 //tx.executeSql('DELETE FROM tblOrders2 where tblOrders2.ordernum !='+r);
-	 console.log(r); 
+	// console.log(r); 
 	};
 
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblLogin (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT)',[],[],db.onError)});
@@ -27,21 +26,17 @@ db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDeliver
 function getLoginCredentials() {
 
 	var loginQry = 'select \'{"userName":"\' || ifNull(username,\'\') || \'","password":"\' || ifNull(password,\'\') || \'","numOfDays":"\' || ifNull(daysOfHistory,\'0\') || \'","lastResponse":"\' || ifNull(lastResponse,\'empty\') || \'"}\' as creds FROM tblLogin ';
-	
-	console.log( loginQry );
+		
 	db.transaction(function(transaction){transaction.executeSql(loginQry, [],
 			function (transaction, resultSet) {
-				console.log('record Count for tlbLogin : ' + resultSet.rows.length );
 				for (var i=0; i<resultSet.rows.length; i++) {
 					var row = resultSet.rows.item(i);   
 					orderInfo[i] = [row["creds"], ];
-					console.log( orderInfo[i]);
 					mobilens.SAMuserStore.add(JSON.parse(orderInfo[i]));
 				}
 				
 				if( mobilens.SAMuserStore.getCount() < 1 )
 					{ mobilens.SAMuserStore.add({userName: '',password: '',lastUpdated:'', numOfDays:'0',lastResponse:'empty'})
-					  console.log(' user login credentials added to Store!');
 					toggleUserPanel('1');
 					}
 				}
@@ -122,9 +117,6 @@ function getOrderDetail (sTarget) {
 						var returnL = resultSet.rows.length;
 						if( returnL > 0 )
 							{
-//								console.log('This order has extended order information:' + orderRecDetailNumber);
-//								var ascExtenedStore = mobilens.storeSAPOrders.getAt(parseInt(recIndex)).extDetail();
-//								ascExtenedStore.removeAll();
 								var ascExtenedStore = new Ext.data.Store({model: 'modelSapOrders2'});
 							
 								for (var k=0; k<resultSet.rows.length; k++) {
@@ -153,16 +145,21 @@ function getOrderData () {
 						var newRec = mobilens.storeSAPOrders.add(JSON.parse(orderInfo[i]));
 						newRec[0].formatData( [row["refreshed"], ] );
 					   } // end of order header for loop
+                       
+                       console.log(resultSet.rows.length + ' orders added to Store!');
+                       
+                       db.transaction(function(transaction){transaction.executeSql('SELECT COUNT(*) from tblOrders', [],
+                            function (transaction, resultSet) {
+				                getOrderDetail ();
+				            } // end of order header transaction onSuccess function
+		                );
+	                    }); 
+                       
 					} // end of order header transaction onSuccess function
 			);
 		});
 
-	db.transaction(function(transaction){transaction.executeSql('SELECT COUNT(*) from tblOrders', [],
-			function (transaction, resultSet) {
-				getOrderDetail ();
-				} // end of order header transaction onSuccess function
-		);
-	});
+
 };
 
 

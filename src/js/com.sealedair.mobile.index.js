@@ -2,7 +2,6 @@
 mobilens.cancelButton = '';
 mobilens.activeFiltersOnly = '';
 
-
 /* **************************************************************** */
 /*                  Main Order Display List                         */
 /* **************************************************************** */
@@ -33,14 +32,17 @@ mobilens.orderList = new Ext.List( {
         if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
             {	
                 myR.set('orderDisclose','1');
-                mobilens.storeSAPOrders.filter('orderDisclose','1');
                 this.grouped = false;
+                this.refreshDisplay('show');
+                this.grouped = true;
                 this.refreshDisplay('show');
             }
 
 
         if (item.getTarget('.expanded') )
-            {   myR.set('orderDisclose','2'); mobilens.storeSAPOrders.clearFilter(); this.grouped = true; this.refreshDisplay('show'); }
+            {   
+                myR.set('orderDisclose','2');
+            }
 
         if (item.getTarget('.detail') )
         {  myR.set('itemUpdate','1'); }
@@ -320,7 +322,6 @@ mobilens.filterPanel = new Ext.Panel({
 														{
 													if( Orecord.get('shipToName')==Srecord.get('firstName') )
 														{
-														console.log('setting filter flag for : ' + Srecord.get('firstName') );
 														Orecord.set('isShipToFiltered','1');
 														cont = '';
 														}
@@ -328,7 +329,6 @@ mobilens.filterPanel = new Ext.Panel({
 														{
 															if( Orecord.get('isShipToFiltered')=='1' )
 															{
-																console.log('removing filter for : ' + Srecord.get('firstName') );
 																Orecord.set('isShipToFiltered','');
 															}
 														}

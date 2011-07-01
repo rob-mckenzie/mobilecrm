@@ -20,6 +20,7 @@ t += (se * 1000);
 this.setTime(t);
 };
 
+
 function stringSegmentation( sourceData, segLen, sepChar ){
     var segmentedReturn = '';
 	var counter = 1;

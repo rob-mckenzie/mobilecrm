@@ -12,7 +12,6 @@
 
 //The calling soap message is defined by the WSDL.  I used ECLIPSE soap test client to test the call.
 //and to get the 'marshalled' soap envelope specification below.
-
 //var server = "http://172.16.172.71:50000"
 //var server = "https://sapecomdev.sealedair.com:443"
 //var server = "https://sapecomtest.sealedair.com:443/"
@@ -29,10 +28,7 @@ var jsonSAPOrders ={};
 var callbackdetailstatus = '';
 var jsonSAPOrderDetails ={};
 
-
-
-
-function soapSAPLogin(username, password, getBaseData){ 	
+function soapSAPLogin(username, password, getBaseData){
 	var soapMessage = '<SOAP-ENV:Envelope \
 	    xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" \
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance\" \
@@ -82,7 +78,7 @@ function restifySAPLoginXML(xmlHttpRequest, status){
 	else{
 		console.log('Not able to connect to server or no network connection available!');
 		loginStatus = 'Not able to connect to server or no network connection available!';
-		//Ext.Msg.alert('SAP Orders Not Updated', '(VPN connection required). Using Local Data', Ext.emptyFn);
+		//Ext.Msg.alert('SAP Orders Not Updated', '(Not able to connect to server or no network connection available.) Using Local Data', Ext.emptyFn);
 	}
 };
 
@@ -413,7 +409,7 @@ function soapSAPOrders(docfrom, docto, username, password)
 			var curr_sec = d.getSeconds();
 		    var txtNORECSOrderView = "[{\"VBELN\":\"Warning:  No records loaded from SAP.  Updated at "+curr_hour + " - " + curr_min + " - " + curr_sec+"\", \"AUART\":\"\"}]";
 			var jsonNORECSOrderView= JSON.parse(txtNORECSOrderView);
-			Ext.Msg.alert('SAP Orders Not Updated', '(VPN connection required). Using Local Data', Ext.emptyFn);
+			Ext.Msg.alert('SAP Orders Not Updated', '(Not able to connect to server or no network connection available.) Using Local Data', Ext.emptyFn);
 		};   	
 };
 
@@ -476,7 +472,6 @@ function soapSAPOrderDetails(username, password, orders)
 		if(callbackdetailstatus == 'success'){
 			
 			var detailResponse = jsonSAPOrderDetails['Body'][0]['getOrderDetailsResponse'][0]['Response'][0]['errorMessage'][0]['Text'];
-			console.log('checking it : ' + detailResponse);
 			if (detailResponse == 'Success'){ 
 			
 				var SAPOrderHeaders = jsonSAPOrderDetails['Body'][0]['getOrderDetailsResponse'][0]['Response'][0]['orderHeaders'][0]['OrderHeader'];
@@ -548,7 +543,7 @@ function soapSAPOrderDetails(username, password, orders)
 		                	    					deliverynum = jsonSAPDeliveriesTransformed.substring(jsonSAPDeliveriesTransformed.indexOf("\",\"deliveryNo\":\"")+16,jsonSAPDeliveriesTransformed.indexOf("\",\"plannedSippingtDate\""));
 		        	                	    		tx.executeSql('INSERT INTO tblDeliveries (ordernum, itemnum, deliverynum,JSONDeliveryDetail, refreshed) VALUES (?,?,?,?,?)',[ordernum,itemnum,deliverynum,jsonSAPDeliveriesTransformed,d],[],db.onError);
 		                	    					}
-		                	    				}}),console.log('delivery insert complete.');
+		                	    				}})
 		                	    		})(ordernum,itemnum,SAPOrderDeliveries);
 	        	    				}
 	        	    			});                                 
