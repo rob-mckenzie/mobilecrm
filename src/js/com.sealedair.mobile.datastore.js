@@ -1,6 +1,8 @@
 
 mobilens.orderSort = '';
 
+
+
 /* **************************************************************** */
 /*                  Target Web Service Domain Determination         */
 /* **************************************************************** */
@@ -10,11 +12,6 @@ if( theDomain.substr(-7) != 'air.com')
 	{ mobilens.hostname = 'https://sapecomtest.sealedair.com:443'; } // sapecomdev.sealedair.com:443'; }
 else
 	{ mobilens.hostname = 'https://'+theDomain+':443'; }
-
-
-
-
-
 
 
 
