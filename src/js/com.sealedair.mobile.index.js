@@ -48,45 +48,39 @@ mobilens.orderList = new Ext.List( {
         {  myR.set('itemUpdate','1'); }
       },
       
-      
     monitorOrientation: true,
-
 
     refreshDisplay: function(listAction){
 
-		switch( listAction )
-		{
-		case 'hideOrders':
+		if ( listAction === 'hideOrders' )
+        {
 			this.bindStore(mobilens.storeMessages);
 			this.itemTpl = mobilens.xTplMsgWait; 
 			this.initComponent();
 			this.refresh();
-			break;
-		default:
+        }
+		else
+        {
             //this.bindStore(mobilens.SAMuserStore);
             this.bindStore(mobilens.storeMessages);
 			if( Ext.orientation == 'landscape')
 				{ this.itemTpl = mobilens.xTplOrdersPrimaryLandscape;  }
-	  		else	
-	  			{ this.itemTpl = mobilens.xTplOrdersPrimaryPortrait; }
+            else
+                { this.itemTpl = mobilens.xTplOrdersPrimaryPortrait; }
 			this.bindStore(mobilens.storeSAPOrders);
-  			this.initComponent();
-  			this.refresh();
-	  		break;
+            this.initComponent();
+            this.refresh();
 		}
 
-		if ( listAction != '')
+		if ( listAction !== '')
 			{ this.scroller.scrollTo({x:0,y:0}); }
 		
 		this.width = Ext.Element.getViewportWidth(); //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
-  		this.height = Ext.Element.getViewportHeight(); // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),
+        this.height = Ext.Element.getViewportHeight(); // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),
+    },
 
-  	},
-  	
 	handleOrientation: function(){
-	
 		this.refreshDisplay('');
-		
 	},
 	
 	listeners: { orientationchange : function(){ this.handleOrientation(); } }
@@ -623,6 +617,7 @@ SACCRM.Main = {
     init : function()
     	{ 
     	this.ui = new Ext.ux.UniversalUI();
+        orderSortBy('');  //note: passing in an emptry string to this function will sort the list by its default field...rmJr
     	mobilens.orderList.refreshDisplay('');
     	}
 			};

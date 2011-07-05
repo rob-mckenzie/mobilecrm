@@ -475,10 +475,24 @@ mobilens.storeSAPOrders = new Ext.data.Store({
 });
 
 /* **************************************************************** */
-/*                  Store Defaults                                  */
+/*                  Store Defaults & Functions                      */
 /* **************************************************************** */
 
 mobilens.storeDaysOfHistory.add({isSelected: '0'}); 
 mobilens.storeMessages.add({msg1:'<br>Please wait while data is updated',msg2:'...No Deliveries Exist...'});
+
+
+function orderSortBy( v ) {
+ 
+    mobilens.orderSort = v;
+    if( mobilens.orderSort === '') 
+        { mobilens.orderSort = 'soldToName'; }
+        
+    if ( mobilens.orderSort === 'requestedDeliveryDate' || mobilens.orderSort ==='documentDate' )
+            { mobilens.storeSAPOrders.sort( mobilens.orderSort ,'DESC'); }
+    else
+            { mobilens.storeSAPOrders.sort( mobilens.orderSort ,'ASC'); }
+}
+
 
 
