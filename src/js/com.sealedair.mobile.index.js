@@ -121,17 +121,19 @@ mobilens.orderList = new Ext.List( {
                                             });	
 											});
 											
-                                        if( mobilens.storeSAPShipToCustomers.getCount() > 0 ) 
-                                        {
-           	        					db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-									    			function (transaction, resultSet) {
-           	        								mobilens.storeSAPShipToCustomers.clearFilter();
-           	        								mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
-	            	        							mobilens.orderList.refreshDisplay('displayOrders' );
+                                        
+                                            db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                                                    function (transaction, resultSet) {
+                                                    mobilens.orderList.refreshDisplay('displayOrders' );
+                                                    
+                                                    if( mobilens.storeSAPShipToCustomers.getCount() > 0 )
+                                                    {
+                                                        mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
                                                         mobilens.orderList.scroller.scrollTo({x:0,y:0});
-	            	        							
+                                                    }   
+	            	        						mobilens.storeSAPShipToCustomers.clearFilter();	
 											})});
-                                        }   
+                                           
 								})});
 					})});
 					mobilens.filterPanel.hide();
