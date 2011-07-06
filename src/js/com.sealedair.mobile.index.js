@@ -120,7 +120,9 @@ mobilens.orderList = new Ext.List( {
 													    }
                                             });	
 											});
-											        	        		   			            	        					
+											
+                                        if( mobilens.storeSAPShipToCustomers.getCount() > 0 ) 
+                                        {
            	        					db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
 									    			function (transaction, resultSet) {
            	        								mobilens.storeSAPShipToCustomers.clearFilter();
@@ -128,7 +130,8 @@ mobilens.orderList = new Ext.List( {
 	            	        							mobilens.orderList.refreshDisplay('displayOrders' );
                                                         mobilens.orderList.scroller.scrollTo({x:0,y:0});
 	            	        							
-											})});        	        	        		   														
+											})});
+                                        }   
 								})});
 					})});
 					mobilens.filterPanel.hide();
