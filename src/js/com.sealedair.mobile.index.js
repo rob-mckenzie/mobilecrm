@@ -1,4 +1,5 @@
 
+
 mobilens.cancelButton = '';
 mobilens.activeFiltersOnly = '';
 
@@ -50,6 +51,13 @@ mobilens.orderList = new Ext.List( {
         {  myR.set('itemUpdate','1'); }
       },
       
+    reGroup: function() {
+        this.grouped = false;
+        this.refreshDisplay('show');
+        this.grouped = true;
+        this.refreshDisplay('show');
+    },
+
     monitorOrientation: true,
 
     refreshDisplay: function(listAction){
@@ -74,12 +82,60 @@ mobilens.orderList = new Ext.List( {
             this.refresh();
 		}
 
-		if ( listAction !== '')
-			{ this.scroller.scrollTo({x:0,y:0}); }
+		if ( listAction !== '' & listAction !== 'show' )
+			{ this.scroller.scrollTo({x:0,y:0}); console.log('scroll to top'); }
 		
 		this.width = Ext.Element.getViewportWidth(); //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
         this.height = Ext.Element.getViewportHeight(); // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),
     },
+
+    applyShipToFilter: function() {
+
+        db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                            function (transaction, resultSet) {
+								mobilens.orderList.refreshDisplay('hideOrders' );
+								
+								db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                                        function (transaction, resultSet) {
+											mobilens.storeSAPOrders.clearFilter();
+											mobilens.storeSAPShipToCustomers.filter('isSelected','1');
+											mobilens.storeSAPOrders.each(function(Orecord){
+												var cont = '1';
+												mobilens.storeSAPShipToCustomers.each(function(Srecord) {
+													
+													if ( cont == '1')
+														{
+													        if( Orecord.get('shipToName')==Srecord.get('firstName') )
+														        {
+														            Orecord.set('isShipToFiltered','1');
+														            cont = '';
+														        }
+													        else
+														        {
+															        if( Orecord.get('isShipToFiltered')=='1' )
+															        {
+																        Orecord.set('isShipToFiltered','');
+															        }
+														        }
+													    }
+                                            });	
+											});
+											        	        		   			            	        					
+           	        					db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+									    			function (transaction, resultSet) {
+           	        								mobilens.storeSAPShipToCustomers.clearFilter();
+           	        								mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
+	            	        							mobilens.orderList.refreshDisplay('displayOrders' );
+                                                        mobilens.orderList.scroller.scrollTo({x:0,y:0});
+	            	        							
+											})});        	        	        		   														
+								})});
+					})});
+					mobilens.filterPanel.hide();
+        
+    },
+
+
 
 	handleOrientation: function(){
 		this.refreshDisplay('');
@@ -299,8 +355,11 @@ mobilens.filterPanel = new Ext.Panel({
 				text: 'Apply',
 				ui: 'action',
 				handler: function() {
-
-
+                    
+                    
+                    mobilens.orderList.applyShipToFilter();
+                    
+/*
 					db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
                             function (transaction, resultSet) {
 								//Ext.getBody().mask('<div class="SAMprogress"></div>','data-loading',true);
@@ -344,6 +403,7 @@ mobilens.filterPanel = new Ext.Panel({
 								})});
 					})});
 					mobilens.filterPanel.hide();
+                    */
 				}
 			},{
 				xtype: 'spacer'
@@ -544,7 +604,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
 		   										}
 		   									else
 		   										{
-		   										SACCRM.Main.ui.items.items[0].items.items[0].scroller.scrollTo({x:0,y:0});
+		   										//SACCRM.Main.ui.items.items[0].items.items[0].scroller.scrollTo({x:0,y:0});
 		   										
 		   										mobilens.storeSAPOrders.each(function(record) {
 		   											var orderRecDetailNumber = record.get("documentNumber");
@@ -562,6 +622,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
 		   																					{	mobilens.storeSAPOrders.clearFilter();
 		   																						db.transaction(function(tx)
 		   																								{	mobilens.orderList.refreshDisplay('displayOrders' );
+                                                                                                           mobilens.orderList.applyShipToFilter();
                                      		              		   						}); }); }); }); });
 		   										} // end of ELSE statement for getCount < 1
 		   								}); });  // end of this db transaction string
@@ -572,19 +633,15 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
           	        	   		name: 'myroboptions',
           	        	   		listeners: {
           	        	   			change: function(e, v){
-                                        mobilens.orderSort = v;
-          	        	   				if( v != '') {
-                                                 if ( v==='requestedDeliveryDate' || v==='documentDate' )
-                                                    { mobilens.storeSAPOrders.sort(v,'DESC'); }
-                                                 else
-                                                    { mobilens.storeSAPOrders.sort(v,'ASC'); }
-                                                 }
+                                        mobilens.storeSAPOrders.sortBy(v);
+                                        mobilens.orderList.scroller.scrollTo({x:0,y:0});
+                                        //mobilens.orderList.reGroup();
           	        	   				},
           	        	   			scope: this
           	        	   		},
           	        	   		options: [
           	        	   		          	{text: 'Sort by:',value:''},
-          	        	   		          	{text: ' Order Number',value:'documentNumber'},
+          	        	   		          	{text: ' Order Number',value:'documentNumberTrim'},
          	   						        {text: ' Ship To Name', value:'shipToName'},
          	   						        {text: ' Sold To Name', value:'soldToName'},
          	   						        {text: ' Requested Delivery Date', value:'requestedDeliveryDate'},
@@ -619,7 +676,7 @@ SACCRM.Main = {
     init : function()
     	{ 
     	this.ui = new Ext.ux.UniversalUI();
-        orderSortBy('');  //note: passing in an emptry string to this function will sort the list by its default field...rmJr
+        mobilens.storeSAPOrders.sortBy('') //note: passing in an emptry string to this function will sort the list by its default field...rmJr
     	mobilens.orderList.refreshDisplay('');
     	}
 			};

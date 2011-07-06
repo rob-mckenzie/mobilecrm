@@ -1,4 +1,5 @@
 
+
 mobilens.orderSort = '';
 
 
@@ -348,7 +349,7 @@ Ext.regModel('modelSAPOrders', {
                     getGroupString : function(record) {
 
                         var retVal = 'A';
-                        alert('test');
+                        console.log('model.SAPDetails.getGroupString()');
                         
                         switch( mobilens.orderSort )
                         {
@@ -450,10 +451,23 @@ mobilens.storeMessages = new Ext.data.Store({
 mobilens.storeSAPOrders = new Ext.data.Store({
 	model: 'modelSAPOrders',
     
+    sortBy: function( v ) {
+    
+        //alert('calling new sort function');
+        mobilens.orderSort = v;
+        if( mobilens.orderSort === '') 
+            { mobilens.orderSort = 'soldToName'; }
+        
+        if ( mobilens.orderSort === 'requestedDeliveryDate' || mobilens.orderSort ==='documentDate' )
+            { this.sort( mobilens.orderSort ,'DESC'); }
+        else
+            { this.sort( mobilens.orderSort ,'ASC'); }
+    },
+    
 	getGroupString : function(record) {
         
         var retVal = 'A';
-        
+
         switch( mobilens.orderSort )
         {
         case '':
@@ -467,6 +481,7 @@ mobilens.storeSAPOrders = new Ext.data.Store({
             break;
         }
         
+        //console.log('storeSAPOrders.getGroupString(\''+mobilens.orderSort+'\') -- > ' + retVal);
 		return retVal;
 	}
 });
@@ -479,17 +494,6 @@ mobilens.storeDaysOfHistory.add({isSelected: '0'});
 mobilens.storeMessages.add({msg1:'<br>Please wait while data is updated',msg2:'...No Deliveries Exist...'});
 
 
-function orderSortBy( v ) {
- 
-    mobilens.orderSort = v;
-    if( mobilens.orderSort === '') 
-        { mobilens.orderSort = 'soldToName'; }
-        
-    if ( mobilens.orderSort === 'requestedDeliveryDate' || mobilens.orderSort ==='documentDate' )
-            { mobilens.storeSAPOrders.sort( mobilens.orderSort ,'DESC'); }
-    else
-            { mobilens.storeSAPOrders.sort( mobilens.orderSort ,'ASC'); }
-}
 
 
 
