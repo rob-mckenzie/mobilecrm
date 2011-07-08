@@ -2,7 +2,26 @@
 
 mobilens.cancelButton = '';
 mobilens.activeFiltersOnly = '';
+mobilens.orderListHeight = 62;
 
+var myIndexBar = new Ext.IndexBar({
+    //letters: ['27', '28', '29', '30', '31','32', '60', '61', '65'],
+    letters: [ '*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
+    componentCls: 'SAMindexBar',
+    listeners: { 
+        index : function(x,y,z){ 
+            if( y.dom.innerText === '*' )
+                { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
+            if( y.dom.innerText === '#' )
+                { 
+                    mobilens.orderList.scroller.updateBoundary();
+                    mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
+                }
+            } },
+    numberSwitch: function(){
+        this.letters = ['27', '28', '29', '30', '31','32', '60', '61', '65'];
+    }
+});
 
 
 /* **************************************************************** */
@@ -12,14 +31,15 @@ mobilens.activeFiltersOnly = '';
 mobilens.orderList = new Ext.List( {
 	cls: 'demo-list',
 	width: Ext.Element.getViewportWidth(), //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
-	height: Ext.Element.getViewportHeight(), // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),   
+	height: Ext.Element.getViewportHeight()-mobilens.orderListHeight, // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),   
 	//mode: 'SINGLE',
     disableSelection:true,
 	store: mobilens.storeSAPOrders,
 	//selectedItemCls: 'x-list-noSelect', //'does not exist',  // use this as a css class for selected records
-	itemTpl: mobilens.xTplOrdersPrimaryPortrait,
+	itemTpl: mobilens.xTplOrdersPrimary,
     grouped: true,
-    indexBar: true,
+    //indexBar: true,
+    indexBar: myIndexBar,
 
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
@@ -35,16 +55,19 @@ mobilens.orderList = new Ext.List( {
         if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
             {	
                 myR.set('orderDisclose','1');
+                mobilens.storeSAPOrders.filter('orderDisclose','1');
                 this.grouped = false;
-                this.refreshDisplay('show');
+                this.refreshDisplay('expand');
                 this.grouped = true;
-                this.refreshDisplay('show');
+                this.refreshDisplay('expand');
             }
 
 
         if (item.getTarget('.expanded') )
             {   
                 myR.set('orderDisclose','2');
+                mobilens.storeSAPOrders.clearFilter();
+                mobilens.orderList.applyShipToFilter();
             }
 
         if (item.getTarget('.detail') )
@@ -62,31 +85,33 @@ mobilens.orderList = new Ext.List( {
 
     refreshDisplay: function(listAction){
 
-		if ( listAction === 'hideOrders' )
+        switch ( listAction )
         {
-			this.bindStore(mobilens.storeMessages);
-			this.itemTpl = mobilens.xTplMsgWait; 
-			this.initComponent();
-			this.refresh();
-        }
-		else
-        {
-            //this.bindStore(mobilens.SAMuserStore);
-            this.bindStore(mobilens.storeMessages);
-			if( Ext.orientation == 'landscape')
-				{ this.itemTpl = mobilens.xTplOrdersPrimaryLandscape;  }
-            else
-                { this.itemTpl = mobilens.xTplOrdersPrimaryPortrait; }
-			this.bindStore(mobilens.storeSAPOrders);
-            this.initComponent();
-            this.refresh();
+            case 'hideOrders':
+                this.bindStore(mobilens.storeMessages);
+                this.itemTpl = mobilens.xTplMsgWait; 
+                break;
+		    case 'expand':
+                this.bindStore(mobilens.storeMessages);
+                if( Ext.orientation == 'landscape')
+				    { this.itemTpl = mobilens.xTplOrdersPrimaryLandscapeExpand; }
+                else
+                    { this.itemTpl = mobilens.xTplOrdersPrimaryPortraitExpand; }
+                this.bindStore(mobilens.storeSAPOrders);
+                break;
+            default:
+                this.bindStore(mobilens.storeMessages);
+                this.itemTpl = mobilens.xTplOrdersPrimary;
+                this.bindStore(mobilens.storeSAPOrders);
 		}
 
-		if ( listAction !== '' & listAction !== 'show' )
-			{ this.scroller.scrollTo({x:0,y:0}); console.log('scroll to top'); }
-		
+		//if ( listAction !== '' & listAction !== 'show' )
+		//	{ this.scroller.scrollTo({x:0,y:0}); console.log('scroll to top'); }
+        
+        this.initComponent();
+        this.refresh();		
 		this.width = Ext.Element.getViewportWidth(); //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
-        this.height = Ext.Element.getViewportHeight(); // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),
+        this.height = Ext.Element.getViewportHeight()-mobilens.orderListHeight; // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),
     },
 
     applyShipToFilter: function() {
@@ -530,7 +555,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
          		   				daysOH = mobilens.SAMuserStore.first().get('numOfDays').valueOf();
          		   				daysOH = -1 * daysOH
          		   				var d1 = new Date();
-         		   				d1.adjust(0, 0, daysOH, 0, 0, 0); 
+                                d1.adjust(0, 0, daysOH, 0, 0, 0); 
          		   				var d2 = new Date();
          		   				
          		   				var beginStr = String(d1.getFullYear()) + '-' + String(d1.getMonth()+1) + '-' + String(d1.getDate());
@@ -553,6 +578,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
                  		              		   							db.transaction(function(tx)
                          		              		   						{
                  		              		   									mobilens.orderList.refreshDisplay('displayOrders' );
+                                                                                mobilens.orderList.scroller.scrollTo({x:0,y:0});
                          		              		   							getShipTo();
                          		              		   						});
                  		              		   						});
@@ -638,8 +664,10 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
           	        	   		name: 'myroboptions',
           	        	   		listeners: {
           	        	   			change: function(e, v){
+                                        //myIndexBar.numberSwitch();
+                                        //myIndexBar.refresh();
                                         mobilens.storeSAPOrders.sortBy(v);
-                                        mobilens.orderList.scroller.scrollTo({x:0,y:0});
+                                        //mobilens.orderList.scroller.scrollTo({x:0,y:0});
                                         //mobilens.orderList.reGroup();
           	        	   				},
           	        	   			scope: this

@@ -4,21 +4,21 @@
 Ext.ns('SACCRM', 'mobilens', 'Ext.ux');
 
 Date.prototype.adjust = function(yr,mn,dy,hr,mi,se) {
-var m,t;
-this.setYear(this.getFullYear() + yr);
-m = this.getMonth() + mn;
-if(m !== 0) this.setYear(this.getFullYear() + Math.floor(m/12));
-if(m < 0) {
-this.setMonth(12 + (m%12));
-} else if(m > 0) {
-this.setMonth(m%12);
-}
-t = this.getTime();
-t += (dy * 86400000);
-t += (hr * 3600000);
-t += (mi * 60000);
-t += (se * 1000);
-this.setTime(t);
+    var m,t;
+    this.setYear(this.getFullYear() + yr);
+    m = this.getMonth() + mn;
+    if(m !== 0) this.setYear(this.getFullYear() + Math.floor(m/12));
+    if(m < 0)
+        { this.setMonth(12 + (m%12)); } 
+    else
+        if(m > 0) 
+            { this.setMonth(m%12); }
+    t = this.getTime();
+    t += (dy * 86400000);
+    t += (hr * 3600000);
+    t += (mi * 60000);
+    t += (se * 1000);
+    this.setTime(t);
 };
 
 
@@ -86,10 +86,7 @@ function htmlSpacePadding( cLen, rSym ){
 }
 
 
-
-
-
-mobilens.xTplOrdersPrimaryLandscape = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+
+mobilens.xTplOrdersPrimaryLandscapeExpand = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+
 '<div class="col1">'+ 
 '<!-- Column 1 start -->'+
 '<table table align=center width=100% border=0><tr><td width=40%>'+
@@ -135,7 +132,7 @@ mobilens.xTplOrdersPrimaryLandscape = '<tpl for="."><div class="colmask doublepa
 '<caption class="detailC"><table>'+
 '<tpl if="itemUpdate==1"><tr><td class="detailTD" width=100%><center><div class="SAMprogress"></div></td></tr></tpl>'+
 '<tpl if="itemUpdate!=1">'+
-'	<tpl if="hasItems!=1"><tr><td class="detailTD" width=60%><p class="itemRefreshLabel"> No Items Have Been Downloaded </p></td></tpl>'+
+'    <tpl if="hasItems!=1"><tr><td class="detailTD" width=60%><p class="itemRefreshLabel"> No Items Have Been Downloaded </p></td></tpl>'+
 '	<tpl if="hasItems==1"><tr><td class="detailTD" width=60%><p class="itemRefreshLabel">Refreshed:&nbsp;&nbsp {itemsRefreshed}</p></td></tpl>'+
 '	<td class="detailTD" width=39%><div class="detailText">Refresh Item Detail - </div></td><td class="detailTD" width=1%><div class="detail" onClick="refreshOrderLine([\'{parent.documentNumber}\']);"></div></td></tr>'+
 '</tpl>'+
@@ -180,8 +177,46 @@ mobilens.xTplOrdersPrimaryLandscape = '<tpl for="."><div class="colmask doublepa
 
 
 
+mobilens.xTplOrdersPrimary = ''+
+    '<tpl for=".">'+
+        '<div class="colmask doublepage"><div class="colleft">'+
+'<div class="col1">'+ 
+'<!-- Column 1 start -->'+
+'<table table align=center width=100% border=0><tr><td width=40%>'+
+'<div class="itemCount">'+
+' <tpl if="isSelected==1"><div class="headerItemCounterSelected">{itemCount}</div></tpl>'+
+' <tpl if="hasItems!=1 && isSelected!=1"><div class="headerItemCounter">{itemCount}</div></tpl>'+
+' <tpl if="hasItems==1 && isSelected!=1"><div class="headerItemCounterHasItems">{itemCount}</div></tpl>'+
+'</div>'+
+'</td><td align=right width=60% >'+
+'<tpl if="orderDisclose!=1">'+
+'<tpl if="orderDisclose!=3">'+
+'<div class="expand"></div></tpl>'+
+'<tpl if="orderDisclose==3"><div class="expandUpdate"></div></tpl></tpl>'+
+'</td></tr></table>'+
+'<p class="orderNumber">{documentNumberTrim}</p>'+
 
-mobilens.xTplOrdersPrimaryPortrait = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+
+
+'<!-- Column 1 end -->'+
+
+
+'</div><div class="col2">'+
+'<!-- Column 2 start -->'+ 
+' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
+' <p><span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="xTplSoldTo">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span></p>'+
+' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+
+'<!-- Column 2 end -->'+ 
+'</div></div></div>';
+
+
+
+
+
+
+mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+
 '<div class="col1">'+ 
 '<!-- Column 1 start -->'+
 '<table table align=center width=100% border=0><tr><td width=40%>'+
