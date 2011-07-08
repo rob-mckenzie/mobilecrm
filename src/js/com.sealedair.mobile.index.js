@@ -3,6 +3,7 @@
 mobilens.cancelButton = '';
 mobilens.activeFiltersOnly = '';
 mobilens.orderListHeight = 62;
+mobilens.orderListSelction = 0;
 
 var myIndexBar = new Ext.IndexBar({
     //letters: ['27', '28', '29', '30', '31','32', '60', '61', '65'],
@@ -44,6 +45,7 @@ mobilens.orderList = new Ext.List( {
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
         
+        
         if (item.getTarget('.itemCount') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
             {
                 if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
@@ -54,6 +56,8 @@ mobilens.orderList = new Ext.List( {
 
         if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
             {	
+                if ( mobilens.storeSAPOrders.getCount() > 1 )
+                 { mobilens.orderListSelction = index; }
                 myR.set('orderDisclose','1');
                 mobilens.storeSAPOrders.filter('orderDisclose','1');
                 this.grouped = false;
@@ -105,11 +109,16 @@ mobilens.orderList = new Ext.List( {
                 this.bindStore(mobilens.storeSAPOrders);
 		}
 
-		//if ( listAction !== '' & listAction !== 'show' )
-		//	{ this.scroller.scrollTo({x:0,y:0}); console.log('scroll to top'); }
-        
         this.initComponent();
         this.refresh();		
+        if ( listAction === 'expand' )
+            { this.scroller.scrollTo({x:0,y:0}); }
+        else
+            if( mobilens.orderListSelction > 0 )
+                { 
+                    this.scroller.scrollTo({x:0,y: mobilens.orderListSelction * 103});
+                    mobilens.orderListSelction = 0;
+                }
 		this.width = Ext.Element.getViewportWidth(); //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
         this.height = Ext.Element.getViewportHeight()-mobilens.orderListHeight; // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),
     },
