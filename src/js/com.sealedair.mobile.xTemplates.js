@@ -214,6 +214,21 @@ mobilens.xTplOrdersPrimary = ''+
 
 
 
+mobilens.xTplOrdersTest = ''+
+    '<tpl for=".">'+
+'<div class="itemCount">'+
+        '<div class="headerItemCounterHasItems">{itemCount}</div>'+
+    '</div>'+
+    '<div class="expand"></div>'+
+    '<p class="orderNumber">{documentNumberTrim}</p>'+
+
+'<!-- Column 1 end -->'+
+' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
+' <p><span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="xTplSoldTo">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span></p>'+
+' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
+' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>';
+
 
 
 mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+

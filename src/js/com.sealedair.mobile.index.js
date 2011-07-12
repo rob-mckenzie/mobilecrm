@@ -105,7 +105,11 @@ mobilens.orderList = new Ext.List( {
                 break;
             default:
                 this.bindStore(mobilens.storeMessages);
-                this.itemTpl = mobilens.xTplOrdersPrimary;
+                
+                if ( mobilens.testCheckField.isChecked() === true )
+                { this.itemTpl = mobilens.xTplOrdersTest; }
+                else
+                { this.itemTpl = mobilens.xTplOrdersPrimary; }
                 this.bindStore(mobilens.storeSAPOrders);
 		}
 
@@ -208,9 +212,7 @@ mobilens.passwordField = new Ext.form.Password({
 
 mobilens.testCheckField = new Ext.form.Checkbox({
 	label: 'Use Test Display',
-    isField: true,
     checked: true,
-  //  inputType: 'text',
     uncheck: function(){
      alert( ' unchecked' );   
     }
@@ -341,14 +343,7 @@ mobilens.userPanel = new Ext.Panel({
 		id: 'userform',
         items:[mobilens.userNameField,
 		        mobilens.passwordField,
-                {
-                xtype: 'checkboxfield',
-                name: 'cool',
-                label: 'Cool'
-
-                
-                
-                },
+                mobilens.testCheckField,
 		        mobilens.daysOfHistorySlider,
 		        mobilens.daysOfHistoryList
 		        ]
