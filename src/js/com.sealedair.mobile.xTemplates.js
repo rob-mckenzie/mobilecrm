@@ -219,7 +219,7 @@ mobilens.xTplOrdersTest = ''+
 '<div class="itemCount">'+
         '<div class="headerItemCounterHasItems">{itemCount}</div>'+
     '</div>'+
-    '<div class="expand"></div>'+
+    '<div class="expand">X</div>'+
     '<p class="orderNumber">{documentNumberTrim}</p>'+
 
 '<!-- Column 1 end -->'+
