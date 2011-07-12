@@ -206,6 +206,16 @@ mobilens.passwordField = new Ext.form.Password({
 	useClearIcon: true
 });
 
+mobilens.testCheckField = new Ext.form.Checkbox({
+	label: 'Use Test Display',
+    isField: true,
+    checked: true,
+  //  inputType: 'text',
+    uncheck: function(){
+     alert( ' unchecked' );   
+    }
+});
+
 mobilens.daysOfHistorySlider = new Ext.form.Slider({
 	minValue: 0,
 	maxValue: 180,
@@ -329,8 +339,16 @@ mobilens.userPanel = new Ext.Panel({
 	items: [{
 		xtype: 'form',
 		id: 'userform',
-		items: [mobilens.userNameField,
+        items:[mobilens.userNameField,
 		        mobilens.passwordField,
+                {
+                xtype: 'checkboxfield',
+                name: 'cool',
+                label: 'Cool'
+
+                
+                
+                },
 		        mobilens.daysOfHistorySlider,
 		        mobilens.daysOfHistoryList
 		        ]
