@@ -216,18 +216,17 @@ mobilens.xTplOrdersPrimary = ''+
 
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
-'<div class="itemCount">'+
-        '<div class="headerItemCounterHasItems">{itemCount}</div>'+
-    '</div>'+
-    '<div class="expand">X</div>'+
-    '<p class="orderNumber">{documentNumberTrim}</p>'+
-
-'<!-- Column 1 end -->'+
+' <div class="itemCount">'+
+        '<div class="headerItemCounterHasItemsTest"> {itemCount} </div>'+
+        '<div class="headerSpacerTest"></div>'+
+        '<div class="expandTest"> + </div>'+
+' <!-- Column 1 end -->'+
+' <div><p><span class="headerLabel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{documentNumberTrim}</span></p>'+
 ' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
 ' <p><span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="xTplSoldTo">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span></p>'+
 ' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
-' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>';
+' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
 
 
 
@@ -328,10 +327,11 @@ mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask dou
 mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" border=1 align=center width=100%>'+
 '<table  table align=center width=100% border=0 class="detailT" >'+
 '<caption class="detailC">'+
-'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
+'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');">Tracking Number: '+
+//'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
 '<tpl if="trackingNo != \'\'"> {trackingNo} </tpl>'+
 '<tpl if="trackingNo == \'\'">Click Here To Track </tpl>'+
-'</a><br></div></tpl>'+
+'</div><br></tpl>'+
 
 '</caption><thead>'+
 '<tr>'+

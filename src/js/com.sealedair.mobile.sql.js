@@ -374,3 +374,43 @@ function refreshOrderLine(orderNumber){
 }
 
 
+
+
+
+
+
+mobilens.urlTitleBar = new Ext.Toolbar({
+        dock: 'top',
+        xtype: 'toolbar',
+        title: ''
+    });
+
+mobilens.urlCloseButton = new Ext.Button({
+        text: 'Close',
+        handler: function(){
+		    mobilens.urlPanel.hide();
+	        }
+    });
+
+mobilens.urlToolBar = new Ext.Toolbar({
+                        dock: 'bottom',
+		                xtype: 'toolbar',
+		                items: [mobilens.urlCloseButton]
+    });
+
+mobilens.urlPanel = new Ext.Panel({
+        floating: true,
+        centered: true,
+        modal: true,
+        width: 700,
+        height: 455,
+        dockedItems: [mobilens.urlTitleBar,mobilens.urlToolBar],
+        items: [{html: ''}]
+});
+
+function displayTargetURL( srcURL, srcTitle) {
+ 
+    var srcHTML = '<iframe align=center width=687px height=350px src="'+srcURL+'">iFrame Not Supported</iframe>';
+    mobilens.urlPanel.items.items[0].html = srcHTML;
+    mobilens.urlPanel.show();
+}

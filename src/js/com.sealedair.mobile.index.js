@@ -5,7 +5,7 @@ mobilens.activeFiltersOnly = '';
 mobilens.orderListHeight = 62;
 mobilens.orderListSelction = 0;
 
-var myIndexBar = new Ext.IndexBar({
+mobilens.myIndexBar = new Ext.IndexBar({
     //letters: ['27', '28', '29', '30', '31','32', '60', '61', '65'],
     letters: [ '*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
     componentCls: 'SAMindexBar',
@@ -25,6 +25,31 @@ var myIndexBar = new Ext.IndexBar({
 });
 
 
+
+mobilens.myIndexBarNumbers = new Ext.IndexBar({
+    letters: ['27', '28', '29', '30', '31','32', '60', '61', '65'],
+    //letters: [ '*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
+    componentCls: 'SAMindexBar',
+    listeners: { 
+        index : function(x,y,z){ 
+            if( y.dom.innerText === '*' )
+                { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
+            if( y.dom.innerText === '#' )
+                { 
+                    mobilens.orderList.scroller.updateBoundary();
+                    mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
+                }
+            }
+            },
+    numberSwitch: function(){
+        this.letters = ['27', '28', '29', '30', '31','32', '60', '61', '65'];
+    }
+});
+
+
+
+
+
 /* **************************************************************** */
 /*                  Main Order Display List                         */
 /* **************************************************************** */
@@ -40,7 +65,7 @@ mobilens.orderList = new Ext.List( {
 	itemTpl: mobilens.xTplOrdersPrimary,
     grouped: true,
     //indexBar: true,
-    indexBar: myIndexBar,
+    indexBar: mobilens.myIndexBar,
 
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
@@ -54,7 +79,7 @@ mobilens.orderList = new Ext.List( {
                     {myR.set('isSelected','1'); }
             } 
 
-        if (item.getTarget('.expand')||item.getTarget('.expandUpdate') )
+        if (item.getTarget('.expand')||item.getTarget('.expandUpdate')||item.getTarget('.expandTest') )
             {	
                 if ( mobilens.storeSAPOrders.getCount() > 1 )
                  { mobilens.orderListSelction = index; }
@@ -107,9 +132,9 @@ mobilens.orderList = new Ext.List( {
                 this.bindStore(mobilens.storeMessages);
                 
                 if ( mobilens.testCheckField.isChecked() === true )
-                { this.itemTpl = mobilens.xTplOrdersTest; }
-                else
                 { this.itemTpl = mobilens.xTplOrdersPrimary; }
+                else
+                { this.itemTpl = mobilens.xTplOrdersTest; }
                 this.bindStore(mobilens.storeSAPOrders);
 		}
 
@@ -243,7 +268,7 @@ mobilens.daysOfHistorySlider = new Ext.form.Slider({
 /* **************************************************************** */
 
 mobilens.userCancelButton = new Ext.Button({
-	text: 'Cancel',
+    text: 'Cancel',
 	handler: function(){
 		mobilens.userPanel.toggleUserPanel('0');
 	}
@@ -375,7 +400,6 @@ mobilens.userPanel = new Ext.Panel({
 		}
 	}
 });
-
 
 
 /* **************************************************************** */
@@ -688,7 +712,14 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
           	        	   			change: function(e, v){
                                         //myIndexBar.numberSwitch();
                                         //myIndexBar.refresh();
+                                        //mobilens.orderList.indexBar = myIndexBarNumbers;
+                                      
+                                        mobilens.orderList.indexBar.hide();
+                                        mobilens.orderList.indexBar.numberSwitch();
                                         mobilens.storeSAPOrders.sortBy(v);
+                                        mobilens.orderList.indexBar.refresh();
+                                        mobilens.orderList.indexBar.show();
+
                                         //mobilens.orderList.scroller.scrollTo({x:0,y:0});
                                         //mobilens.orderList.reGroup();
           	        	   				},
