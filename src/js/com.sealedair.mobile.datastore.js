@@ -1,7 +1,5 @@
 
-
 mobilens.orderSort = '';
-
 
 
 /* **************************************************************** */
@@ -33,6 +31,22 @@ Ext.regModel('modelMessageStore',{
 	{name: 'msg10', type: 'string', defaultValue: ''}	
 	]
 });
+
+Ext.regModel('modelIndexBarStore',{
+    fields:[
+	{name: 'key', type: 'string'},
+	{name: 'value', type: 'string'},
+	{name: 'filter1', type: 'string'},
+	{name: 'filter2', type: 'string'},
+	{name: 'filter3', type: 'string'}
+	]
+});
+
+
+
+
+
+
 
 Ext.regModel('modelSystemState',{
 	fields:[
@@ -376,17 +390,6 @@ Ext.regModel('modelSAPOrders', {
             }
 });
 
-
-
-
-
-
-
-
-
-
-
-
 /* **************************************************************** */
 /*                  User Store Model                               */
 /* **************************************************************** */
@@ -426,12 +429,6 @@ mobilens.storeSAPShipToCustomers = new Ext.data.Store({
 	}
 });
 
-
-//
-//mobilens.storeSAPDetails = new Ext.data.Store({
-//    model: 'modelSapDetails'
-//});
-
 mobilens.storeSAPDeliveries = new Ext.data.Store({
     model: 'modelSapDeliveries'
 });
@@ -448,20 +445,48 @@ mobilens.storeMessages = new Ext.data.Store({
 	}
 });
 
+
+mobilens.SAMindexBarStore = new Ext.data.Store({
+    model: 'modelIndexBarStore',
+    data : [
+        {key: 'Primary', value: '*', filter1: 'Top'},
+        {key: 'Primary', value: 'A', filter1: 'Alphabet'},
+        {key: 'Primary', value: 'B', filter1: 'Alphabet'},
+        {key: 'Primary', value: 'C', filter1: 'Alphabet'},
+        {key: 'Primary', value: '1', filter1: 'Numeric'},
+        {key: 'Primary', value: '2', filter1: 'Numeric'},
+        {key: 'Primary', value: '3', filter1: 'Numeric'}
+        
+    ]    
+    
+});
+
+
+
+
 mobilens.storeSAPOrders = new Ext.data.Store({
 	model: 'modelSAPOrders',
     
     sortBy: function( v ) {
-    
-        //alert('calling new sort function');
+
         mobilens.orderSort = v;
-        if( mobilens.orderSort === '') 
-            { mobilens.orderSort = 'soldToName'; }
+        if( mobilens.orderSort === '' ) { mobilens.orderSort = 'soldToName'; }
         
-        if ( mobilens.orderSort === 'requestedDeliveryDate' || mobilens.orderSort ==='documentDate' )
-            { this.sort( mobilens.orderSort ,'DESC'); }
-        else
-            { this.sort( mobilens.orderSort ,'ASC'); }
+        switch(mobilens.orderSort)
+        {   
+            case 'documentNumberTrim':
+                this.sort( mobilens.orderSort ,'ASC');
+                mobilens.myIndexBar.numberSwitch();
+                break;
+            case 'requestedDeliveryDate': case 'documentDate':
+                this.sort( mobilens.orderSort ,'DESC'); 
+                mobilens.myIndexBar.dateSwitch();        
+                break;
+            default:
+                this.sort( mobilens.orderSort ,'ASC'); 
+                mobilens.myIndexBar.alphaSwitch();
+                break;
+        }
     },
     
 	getGroupString : function(record) {
@@ -485,6 +510,96 @@ mobilens.storeSAPOrders = new Ext.data.Store({
 		return retVal;
 	}
 });
+
+
+
+mobilens.myIndexBar = new Ext.IndexBar({
+    store: mobilens.SAMindexBarStore,
+    componentCls: 'SAMindexBar',
+    listeners: { 
+        index : function(x,y,z){ 
+            if( y.dom.innerText === '*' )
+                { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
+            if( y.dom.innerText === '#' )
+                { 
+                    mobilens.orderList.scroller.updateBoundary();
+                    mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
+                }
+            }
+            },
+    numberSwitch: function(){
+        this.store.removeAll();
+        this.store.add({key:'primary',value:'*',filter1:'1'});
+        this.store.add({key:'primary',value:'0',filter1:'2'});        
+        this.store.add({key:'primary',value:'1',filter1:'3'});
+        this.store.add({key:'primary',value:'2',filter1:'4'});
+        this.store.add({key:'primary',value:'3',filter1:'5'});        
+        this.store.add({key:'primary',value:'4',filter1:'6'});        
+        this.store.add({key:'primary',value:'5',filter1:'7'});        
+        this.store.add({key:'primary',value:'6',filter1:'8'});        
+        this.store.add({key:'primary',value:'7',filter1:'9'});        
+        this.store.add({key:'primary',value:'8',filter1:'10'});        
+        this.store.add({key:'primary',value:'9',filter1:'11'});        
+        this.store.add({key:'primary',value:'#',filter1:'999'});                
+    },
+
+    dateSwitch: function(){
+        this.store.removeAll();
+        this.store.add({key:'primary',value:'*',filter1:'1'});
+        this.store.add({key:'primary',value:'2011-05',filter1:'2'});        
+        this.store.add({key:'primary',value:'2011-06',filter1:'3'});
+        this.store.add({key:'primary',value:'2011-07',filter1:'4'});
+        this.store.add({key:'primary',value:'2011-08',filter1:'5'});        
+        this.store.add({key:'primary',value:'2011-09',filter1:'6'});        
+        this.store.add({key:'primary',value:'2011-10',filter1:'7'});        
+        this.store.add({key:'primary',value:'2011-11',filter1:'8'});        
+        this.store.add({key:'primary',value:'2011-12',filter1:'9'});        
+        this.store.add({key:'primary',value:'2012-01',filter1:'10'});        
+        this.store.add({key:'primary',value:'#',filter1:'999'});                
+    },
+
+    alphaSwitch: function(){
+        this.store.removeAll();
+        this.store.add({key:'primary',value:'*',filter1:'1'});
+        this.store.add({key:'primary',value:'A',filter1:'2'});
+        this.store.add({key:'primary',value:'B',filter1:'3'});
+        this.store.add({key:'primary',value:'C',filter1:'4'});
+        this.store.add({key:'primary',value:'D',filter1:'5'});        
+        this.store.add({key:'primary',value:'E',filter1:'6'});        
+        this.store.add({key:'primary',value:'F',filter1:'7'});        
+        this.store.add({key:'primary',value:'G',filter1:'8'});        
+        this.store.add({key:'primary',value:'H',filter1:'9'});        
+        this.store.add({key:'primary',value:'I',filter1:'10'});
+        this.store.add({key:'primary',value:'J',filter1:'11'});
+        this.store.add({key:'primary',value:'K',filter1:'12'});        
+        this.store.add({key:'primary',value:'L',filter1:'13'});
+        this.store.add({key:'primary',value:'M',filter1:'14'});
+        this.store.add({key:'primary',value:'N',filter1:'15'});
+        this.store.add({key:'primary',value:'O',filter1:'16'});
+        this.store.add({key:'primary',value:'P',filter1:'17'});
+        this.store.add({key:'primary',value:'Q',filter1:'18'});
+        this.store.add({key:'primary',value:'R',filter1:'19'});
+        this.store.add({key:'primary',value:'S',filter1:'20'});
+        this.store.add({key:'primary',value:'T',filter1:'21'});
+        this.store.add({key:'primary',value:'U',filter1:'22'});
+        this.store.add({key:'primary',value:'V',filter1:'23'});
+        this.store.add({key:'primary',value:'W',filter1:'24'});
+        this.store.add({key:'primary',value:'X',filter1:'25'});
+        this.store.add({key:'primary',value:'Y',filter1:'26'});
+        this.store.add({key:'primary',value:'Z',filter1:'27'});        
+        this.store.add({key:'primary',value:'#',filter1:'999'});
+    }
+    
+    
+    
+});
+
+
+
+
+
+
+
 
 /* **************************************************************** */
 /*                  Store Defaults & Functions                      */

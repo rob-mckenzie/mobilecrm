@@ -1,5 +1,4 @@
 
-
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
 
@@ -403,13 +402,14 @@ mobilens.urlPanel = new Ext.Panel({
         centered: true,
         modal: true,
         width: 700,
-        height: 455,
+        height: 650,
         dockedItems: [mobilens.urlTitleBar,mobilens.urlToolBar],
         items: [{html: ''}]
 });
 
 function displayTargetURL( srcURL, srcTitle) {
  
+    mobilens.deliveryPnl.hide();
     var srcHTML = '<iframe align=center width=687px height=350px src="'+srcURL+'">iFrame Not Supported</iframe>';
     mobilens.urlPanel.items.items[0].html = srcHTML;
     mobilens.urlPanel.show();

@@ -1,5 +1,4 @@
 
-
 // Namespace Declarations
 Ext.ns('SACCRM', 'mobilens', 'Ext.ux');
 
@@ -330,8 +329,8 @@ mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" bord
 '<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');">Tracking Number: '+
 //'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
 '<tpl if="trackingNo != \'\'"> {trackingNo} </tpl>'+
-'<tpl if="trackingNo == \'\'">Click Here To Track </tpl>'+
-'</div><br></tpl>'+
+'<tpl if="trackingNo == \'\'">Tap Here To Track </tpl>'+
+//'</div><br></tpl>'+
 
 '</caption><thead>'+
 '<tr>'+

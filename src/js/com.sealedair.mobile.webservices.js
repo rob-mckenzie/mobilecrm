@@ -593,15 +593,31 @@ function buildSAPOrderItemsJSON(orders){
 	var xformedSAPOrdersValue = [];
 	var xformedSAPOrdersPaired = '{';	
 	
-	if (orders !== null) {
-		$.each(orders, function(key, value) {
+	if (orders !== null) 
+    {
+        $.each(orders, function(key, value) {
+    if (value === '')  
+    { 
+        innerValue = JSON.stringify($.makeArray(value).pop()).match(/(?:"(?:[^"\\]+|\\(?:\\\\)*.)*"|'(?:[^'\\]+|\\(?:\\\\)*.)*')/g);
+    }
+    else
+        if (value[0].Text)
+        {
+            innerValue = JSON.stringify($.makeArray(value).pop()).match(/(?:"(?:[^"\\]+|\\(?:\\\\)*.)*"|'(?:[^'\\]+|\\(?:\\\\)*.)*')/g);
+        }
+        else
+        {
+            innerValue = null;
+        }
 
+/*
 		if (key === 'ordItems' ||key === 'ordDelivery' ||key === 'ordItemSch' || key == 'itemDelivery' || key === 'batchOption' ||key === 'batchOptionTxt'){			
 			innerValue = 	null;
 		}
 		else{
 			innerValue = JSON.stringify($.makeArray(value).pop()).match(/(?:"(?:[^"\\]+|\\(?:\\\\)*.)*"|'(?:[^'\\]+|\\(?:\\\\)*.)*')/g);
 		};
+*/
 		//console.log(key);
 		//console.log(innerValue);
 		

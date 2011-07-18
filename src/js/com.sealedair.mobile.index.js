@@ -1,54 +1,8 @@
 
-
 mobilens.cancelButton = '';
 mobilens.activeFiltersOnly = '';
 mobilens.orderListHeight = 62;
 mobilens.orderListSelction = 0;
-
-mobilens.myIndexBar = new Ext.IndexBar({
-    //letters: ['27', '28', '29', '30', '31','32', '60', '61', '65'],
-    letters: [ '*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
-    componentCls: 'SAMindexBar',
-    listeners: { 
-        index : function(x,y,z){ 
-            if( y.dom.innerText === '*' )
-                { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
-            if( y.dom.innerText === '#' )
-                { 
-                    mobilens.orderList.scroller.updateBoundary();
-                    mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
-                }
-            } },
-    numberSwitch: function(){
-        this.letters = ['27', '28', '29', '30', '31','32', '60', '61', '65'];
-    }
-});
-
-
-
-mobilens.myIndexBarNumbers = new Ext.IndexBar({
-    letters: ['27', '28', '29', '30', '31','32', '60', '61', '65'],
-    //letters: [ '*', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '#'],
-    componentCls: 'SAMindexBar',
-    listeners: { 
-        index : function(x,y,z){ 
-            if( y.dom.innerText === '*' )
-                { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
-            if( y.dom.innerText === '#' )
-                { 
-                    mobilens.orderList.scroller.updateBoundary();
-                    mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
-                }
-            }
-            },
-    numberSwitch: function(){
-        this.letters = ['27', '28', '29', '30', '31','32', '60', '61', '65'];
-    }
-});
-
-
-
-
 
 /* **************************************************************** */
 /*                  Main Order Display List                         */
@@ -368,7 +322,7 @@ mobilens.userPanel = new Ext.Panel({
 		id: 'userform',
         items:[mobilens.userNameField,
 		        mobilens.passwordField,
-                mobilens.testCheckField,
+                //mobilens.testCheckField,   // not going to pursue alternate interface, right now.
 		        mobilens.daysOfHistorySlider,
 		        mobilens.daysOfHistoryList
 		        ]
@@ -714,11 +668,11 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
                                         //myIndexBar.refresh();
                                         //mobilens.orderList.indexBar = myIndexBarNumbers;
                                       
-                                        mobilens.orderList.indexBar.hide();
-                                        mobilens.orderList.indexBar.numberSwitch();
+                                        //mobilens.orderList.indexBar.hide();
+                                        //mobilens.orderList.indexBar.numberSwitch();
                                         mobilens.storeSAPOrders.sortBy(v);
-                                        mobilens.orderList.indexBar.refresh();
-                                        mobilens.orderList.indexBar.show();
+                                        //mobilens.orderList.indexBar.refresh();
+                                        //mobilens.orderList.indexBar.show();
 
                                         //mobilens.orderList.scroller.scrollTo({x:0,y:0});
                                         //mobilens.orderList.reGroup();
