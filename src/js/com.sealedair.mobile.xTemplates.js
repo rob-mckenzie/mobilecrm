@@ -229,7 +229,7 @@ mobilens.xTplOrdersTest_old = ''+
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp; {documentNumberTrim}'+
-</tpl>';
+'</tpl>';
 
 
 mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+
