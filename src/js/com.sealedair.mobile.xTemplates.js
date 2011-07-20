@@ -216,9 +216,8 @@ mobilens.xTplOrdersPrimary = ''+
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
 ' <div class="itemCount">'+
-        '<div class="headerItemCounterHasItemsTest"> {itemCount} </div>'+
-        '<div class="headerSpacerTest"></div>'+
-        '<div class="expandTest"> + </div>'+
+        '<div class="headerItemCounterHasItemsTest"> {itemCount} '+
+        '<div class="expandTest"> Display Order Detail </div></div><br>'+
 ' <!-- Column 1 end -->'+
 ' <div><p><span class="headerLabel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{documentNumberTrim}</span></p>'+
 ' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
