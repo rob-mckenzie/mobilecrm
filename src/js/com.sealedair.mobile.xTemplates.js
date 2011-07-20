@@ -216,11 +216,12 @@ mobilens.xTplOrdersPrimary = ''+
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
 ' <div class="itemCount">'+
-        '<div class="headerItemCounterHasItemsTest"> {itemCount} </div>'+
-        '<div class="expandTest"> + </div><br>'+
+        '<div class="headerItemCounterHasItemsTest">&nbsp;&nbsp;&nbsp; {itemCount} &nbsp;&nbsp;&nbsp;</div>'+
+        '<div><p><span class="headerLabel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{documentNumberTrim}</span></p></div>'+
+        '<div class="expandTest">&nbsp;&nbsp; + &nbsp;&nbsp;</div><br>'+
 ' <!-- Column 1 end -->'+
-' <div><p><span class="headerLabel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{documentNumberTrim}</span></p>'+
-' <p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
+//' <div><p><span class="headerLabel">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{documentNumberTrim}</span></p>'+
+' <div><p><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="xTplShipTo">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span></p>'+
 ' <p><span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="xTplSoldTo">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span></p>'+
 ' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
