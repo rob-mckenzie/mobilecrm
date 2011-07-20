@@ -319,7 +319,7 @@ mobilens.userPanel = new Ext.Panel({
 		id: 'userform',
         items:[mobilens.userNameField,
 		        mobilens.passwordField,
-                mobilens.testCheckField,   // not going to pursue alternate interface, right now.
+                mobilens.testCheckField, 
 		        mobilens.daysOfHistorySlider,
 		        mobilens.daysOfHistoryList
 		        ]
