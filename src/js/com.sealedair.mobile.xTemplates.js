@@ -226,12 +226,10 @@ mobilens.xTplOrdersTest_old = ''+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
 
 
-
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
 '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp; {documentNumberTrim}'+
 </tpl>';
-
 
 
 mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask doublepage"><div class="colleft">'+

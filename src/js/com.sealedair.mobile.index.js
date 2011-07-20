@@ -715,7 +715,6 @@ SACCRM.Main = {
     	this.ui = new Ext.ux.UniversalUI();
         mobilens.storeSAPOrders.sortBy('') //note: passing in an emptry string to this function will sort the list by its default field...rmJr
     	mobilens.orderList.refreshDisplay('');
-        
 //        mobilens.orderList.scroller.momentum = false;
 /*
         mobilens.orderList.scroller.acceleration = 30;
