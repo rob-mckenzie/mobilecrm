@@ -211,7 +211,7 @@ mobilens.xTplOrdersPrimary = ''+
 '</div></div></div>';
 
 
-mobilens.xTplOrdersTest = ''+
+mobilens.xTplOrdersTest_old = ''+
     '<tpl for=".">'+
 ' <div class="itemCount">'+
         '<div class="headerItemCounterHasItemsTest">&nbsp;&nbsp;&nbsp; {itemCount} &nbsp;&nbsp;&nbsp;</div>'+
@@ -224,6 +224,13 @@ mobilens.xTplOrdersTest = ''+
 ' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
+
+
+
+mobilens.xTplOrdersTest = ''+
+    '<tpl for=".">'+
+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Order:&nbsp;&nbsp;&nbsp; {documentNumberTrim}'+
+</tpl>';
 
 
 
