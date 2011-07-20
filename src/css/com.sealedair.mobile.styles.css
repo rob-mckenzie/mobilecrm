@@ -360,14 +360,14 @@ height:2.4em;
 }
 
 .expandTest {
-    float:left;
-    text-align: center;
-	font-family:"Andale Mono",monospace; 
-	font-size: 30px;
-	line-height: 31px;
-    font-weight: bold;
-    text-decoration:underline;
-    background-color: #61abeb;
+    //float:left;
+    //text-align: center;
+	//font-family:"Andale Mono",monospace; 
+	//font-size: 30px;
+	//line-height: 31px;
+    //font-weight: bold;
+    //text-decoration:underline;
+    //background-color: #61abeb;
 }
 
 .headerItemCounterHasItemsTest {
