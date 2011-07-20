@@ -188,7 +188,7 @@ mobilens.passwordField = new Ext.form.Password({
 
 mobilens.testCheckField = new Ext.form.Checkbox({
 	label: 'Use Test Display',
-    checked: true,
+    checked: false, //true,
     uncheck: function(){
      alert( ' unchecked' );   
     }
@@ -319,7 +319,7 @@ mobilens.userPanel = new Ext.Panel({
 		id: 'userform',
         items:[mobilens.userNameField,
 		        mobilens.passwordField,
-                //mobilens.testCheckField,   // not going to pursue alternate interface, right now.
+                mobilens.testCheckField,   // not going to pursue alternate interface, right now.
 		        mobilens.daysOfHistorySlider,
 		        mobilens.daysOfHistoryList
 		        ]
