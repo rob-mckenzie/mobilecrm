@@ -20,7 +20,7 @@ mobilens.orderList = new Ext.List( {
     grouped: true,
     //indexBar: true,
     indexBar: mobilens.myIndexBar,
-
+    
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
         
@@ -166,9 +166,6 @@ mobilens.orderList = new Ext.List( {
 	listeners: { orientationchange : function(){ this.handleOrientation(); } }
  
 });
-
-
-
 
 /* **************************************************************** */
 /*                  User Panel Form Elements                        */
@@ -718,6 +715,8 @@ SACCRM.Main = {
     	this.ui = new Ext.ux.UniversalUI();
         mobilens.storeSAPOrders.sortBy('') //note: passing in an emptry string to this function will sort the list by its default field...rmJr
     	mobilens.orderList.refreshDisplay('');
+        mobilens.orderList.scroller.acceleration = 300;
+        mobilens.orderList.scroller.friction = 0.01;
     	}
 			};
 
