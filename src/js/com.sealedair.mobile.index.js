@@ -187,8 +187,8 @@ mobilens.passwordField = new Ext.form.Password({
 });
 
 mobilens.testCheckField = new Ext.form.Checkbox({
-	label: 'Use Test Display',
-    checked: false, //true,
+	label: 'Use Enhanced CSS Display',
+    checked: true,
     uncheck: function(){
      alert( ' unchecked' );   
     }
