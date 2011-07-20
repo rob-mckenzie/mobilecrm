@@ -228,7 +228,7 @@ mobilens.xTplOrdersTest_old = ''+
 
 mobilens.xTplOrdersTest = ''+
     '<tpl for="."><div>'+
-' <span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail"><div class="expandTest">{documentNumberTrim}</div></span><br>'+
+' <span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail expandTest">{documentNumberTrim}</span><br>'+
 ' <span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span><br>'+
 ' <span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span><br>'+
 ' <span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
