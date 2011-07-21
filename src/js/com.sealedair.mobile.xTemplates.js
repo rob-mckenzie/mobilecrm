@@ -225,9 +225,8 @@ mobilens.xTplOrdersTest_old = ''+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
 
-
 mobilens.xTplOrdersTest = ''+
-    '<tpl for="."><div>'+
+    '<tpl for=".">'+
 ' <span >&nbsp;<input type="checkbox" class="orderCheckBox"></span>'+
 ' <span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail expandTest">{documentNumberTrim}</span>'+
 ' <span class="headerLabel">&nbsp;&nbsp;&nbsp;Downloaded Items:&nbsp;&nbsp;&nbsp; </span><span class="'+
@@ -238,7 +237,7 @@ mobilens.xTplOrdersTest = ''+
 ' <span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span><br>'+
 ' <span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
-' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span><span class="headerDetail"></div>'+
+' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span><span class="headerDetail">'+
     '</tpl>';
 
 
