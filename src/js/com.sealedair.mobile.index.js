@@ -718,7 +718,7 @@ SACCRM.Main = {
 //        mobilens.orderList.scroller.momentum = false;
 
         mobilens.orderList.scroller.acceleration = 40;
-        mobilens.orderList.scroller.friction = 0;
+        mobilens.orderList.scroller.friction = 0.05;
         mobilens.orderList.scroller.fps = 70;        
         
     	}
