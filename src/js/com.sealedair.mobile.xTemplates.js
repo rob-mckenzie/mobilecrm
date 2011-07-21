@@ -225,9 +225,11 @@ mobilens.xTplOrdersTest_old = ''+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span></div>';
 
+
+
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
-' <span >&nbsp;<input type="checkbox" class="orderCheckBox"></span>'+
+//' <span >&nbsp;<input type="checkbox" class="orderCheckBox"></span>'+
 ' <span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail expandTest">{documentNumberTrim}</span>'+
 ' <span class="headerLabel">&nbsp;&nbsp;&nbsp;Downloaded Items:&nbsp;&nbsp;&nbsp; </span><span class="'+
 ' <tpl if="isSelected==1">isSelectedTest</tpl>'+
@@ -337,19 +339,14 @@ mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask dou
 '</div></div></div>';
 
 
-
-
-
 mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" border=1 align=center width=100%>'+
 '<table  table align=center width=100% border=0 class="detailT" >'+
 '<caption class="detailC">'+
-'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');">Tracking Number: '+
-//'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" Target="_{trackingNo}">Tracking Number: <a href="{trackingURL}">'+
+'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');">Tracking Number: <span class="xTplItemDeliveryLink">'+
 '<tpl if="trackingNo != \'\'"> {trackingNo} </tpl>'+
-'<tpl if="trackingNo == \'\'">Tap Here To Track </tpl>'+
-//'</div><br></tpl>'+
-
+'<tpl if="trackingNo == \'\'">Tap Here To Track </tpl></span>'+
 '</caption><thead>'+
+
 '<tr>'+
 '<th scope="col" class="detailTH">DeliveryNo</td>'+
 '<th scope="col" class="detailTH">Position</td>'+
