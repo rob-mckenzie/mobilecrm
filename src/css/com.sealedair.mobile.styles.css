@@ -372,17 +372,22 @@ height:2.4em;
 
 
 .itemCountTest {
-    font-size: 25px;
-	line-height: 26px;
-    font-weight: bold;
+
+    
     
 }
 
 .hasItemsTest {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 26px;
     background-color: #10a530;
 }
 
 .isSelectedTest {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 26px;
     background-color: #61abeb;
 }
 
