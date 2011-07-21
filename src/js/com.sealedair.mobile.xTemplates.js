@@ -230,10 +230,10 @@ mobilens.xTplOrdersTest = ''+
     '<tpl for="."><div>'+
 ' <span class="orderCheckBox">&nbsp;<input type="checkbox">&nbsp;</span>'+
 ' <span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail expandTest">{documentNumberTrim}</span>'+
-' <span class="headerLabel">&nbsp;&nbsp;&nbsp;Downloaded Items:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail itemCountTest '+
+' <span class="headerLabel">&nbsp;&nbsp;&nbsp;Downloaded Items:&nbsp;&nbsp;&nbsp; </span><span class="itemCountTest '+
 ' <tpl if="isSelected==1">isSelectedTest</tpl>'+
 ' <tpl if="hasItems==1 && isSelected!=1">hasItemsTest</tpl>'+
-'"> &nbsp;{itemCount}&nbsp; </span><br>'+
+'"> &nbsp;&nbsp;{itemCount}&nbsp; </span><br>'+
 ' <span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span><br>'+
 ' <span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span><br>'+
 ' <span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+

@@ -370,7 +370,13 @@ height:2.4em;
     //background-color: #61abeb;
 }
 
-
+.orderCheckBox {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 26px;
+    background-color: #10a530;
+    
+}
 .itemCountTest {
 
     

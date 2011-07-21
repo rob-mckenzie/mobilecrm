@@ -717,9 +717,9 @@ SACCRM.Main = {
     	mobilens.orderList.refreshDisplay('');
 //        mobilens.orderList.scroller.momentum = false;
 
-        mobilens.orderList.scroller.acceleration = 40;
-        mobilens.orderList.scroller.friction = 0.1;
-        mobilens.orderList.scroller.fps = 30;        
+        mobilens.orderList.scroller.acceleration = 50;
+        mobilens.orderList.scroller.friction = 0;
+        mobilens.orderList.scroller.fps = 80;        
         
     	}
 			};
