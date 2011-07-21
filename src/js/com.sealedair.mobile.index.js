@@ -25,7 +25,7 @@ mobilens.orderList = new Ext.List( {
         var myR = this.store.data.items[index];
         
         
-        if (item.getTarget('.itemCount') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
+        if (item.getTarget('.itemCount') || item.getTarget('.itemCountTest') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
             {
                 if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
                     {myR.set('isSelected',''); }

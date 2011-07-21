@@ -363,12 +363,29 @@ height:2.4em;
     //float:left;
     //text-align: center;
 	//font-family:"Andale Mono",monospace; 
-	//font-size: 30px;
-	//line-height: 31px;
+	font-size: 15px;
+	line-height: 16px;
     font-weight: bold;
     text-decoration:underline;
     //background-color: #61abeb;
 }
+
+
+.itemCountTest {
+    font-size: 15px;
+	line-height: 16px;
+    font-weight: bold;
+    
+}
+
+.hasItemsTest {
+    background-color: #10a530;
+}
+
+.isSelectedTest {
+    background-color: #61abeb;
+}
+
 
 .headerItemCounterHasItemsTest {
     float:left;
