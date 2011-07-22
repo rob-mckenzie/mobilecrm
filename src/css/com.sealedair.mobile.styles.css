@@ -369,16 +369,22 @@ height:2.4em;
 	background-color: #000000;
 }
 
+.myDivLine {
+    float:left;
+}
+
+
 .expandTest {
-    //float:left;
     //text-align: center;
-	//font-family:"Andale Mono",monospace; 
-	font-size: 15px;
+    //font-family:"Andale Mono",monospace; 
+    font-size: 30px;
 	line-height: 16px;
     font-weight: bold;
     text-decoration:underline;
+    color:#0000A8;
     //background-color: #61abeb;
 }
+
 
 .orderCheckBox {
     font-weight: bold;
@@ -386,21 +392,51 @@ height:2.4em;
     line-height: 26px;
 }
 .itemCountTest {
-   // nothing here
-}
-
-.hasItemsTest {
     font-weight: bold;
     font-size: 25px;
     line-height: 26px;
-    background-color: #10a530;
 }
 
-.isSelectedTest {
+.itemCountTestISSHI0{
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 26px;    
+    background-color: #000000;    
+    color:#FFFFFF;    
+}
+
+.itemCountTestISS1HI0{
     font-weight: bold;
     font-size: 25px;
     line-height: 26px;
     background-color: #61abeb;
+    color:#FFFFFF;    
+}
+
+.itemCountTestISS1HI1{
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 26px;
+    background-color: #61abeb;    
+    color:#FFFFFF;    
+}
+
+.itemCountTestISSHI1{
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 26px;
+    background-color: #10a530;    
+    color:#FFFFFF;
+}
+
+.hasItemsTest {
+    background-color: #10a530;
+    color:#FFFFFF;
+}
+
+.isSelectedTest {
+    background-color: #61abeb;
+    color:#FFFFFF;
 }
 
 

@@ -229,19 +229,16 @@ mobilens.xTplOrdersTest_old = ''+
 
 mobilens.xTplOrdersTest = ''+
     '<tpl for=".">'+
-//' <span >&nbsp;<input type="checkbox" class="orderCheckBox"></span>'+
-' <span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span><span class="headerDetail expandTest">{documentNumberTrim}</span>'+
-' <span class="headerLabel">&nbsp;&nbsp;&nbsp;Downloaded Items:&nbsp;&nbsp;&nbsp; </span><span class="'+
-' <tpl if="isSelected==1">isSelectedTest</tpl>'+
-' <tpl if="hasItems==1 && isSelected!=1">hasItemsTest</tpl>'+
-' itemCountTest"> &nbsp;&nbsp;{itemCount}&nbsp; </span><br>'+
-' <span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span><br>'+
+' <table><tr><td><span class="headerLabel">Order:&nbsp;&nbsp;&nbsp; </span></td><td class="expandTest">{documentNumberTrim}</td>'+
+' <td><span class="headerLabel">&nbsp;&nbsp;&nbsp;Downloaded Items:&nbsp;&nbsp;&nbsp; </span></td>'+
+             '<td class="itemCountTestISS{isSelected}HI{hasItems}"> &nbsp;&nbsp;{itemCount}&nbsp;&nbsp; </td>'+
+' </tr></table> ' +
+' <table><tr><td><span class="headerLabel">Ship To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{shipToName} [{shipToNo}] [{salesOrg}][{division}], {shipToCity}</span><br>'+
 ' <span class="headerLabel">Sold To:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{soldToName} [{soldTo}] [{salesOrg}][{division}], {soldToCity}</span><br>'+
 ' <span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span><span class="headerDetail">'+
-    '</tpl>';
-
+    '</td></tr></table></tpl>';
 
 
 

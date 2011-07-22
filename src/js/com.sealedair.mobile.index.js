@@ -25,7 +25,7 @@ mobilens.orderList = new Ext.List( {
         var myR = this.store.data.items[index];
         
         
-        if (item.getTarget('.itemCount') || item.getTarget('.itemCountTest') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
+        if (item.getTarget('.itemCount') || item.getTarget('.itemCountTestISS1HI0')  || item.getTarget('.itemCountTestISSHI0') || item.getTarget('.itemCountTestISSHI1') || item.getTarget('.itemCountTestISS1HI1') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
             {
                 if(myR.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
                     {myR.set('isSelected',''); }
@@ -188,10 +188,7 @@ mobilens.passwordField = new Ext.form.Password({
 
 mobilens.testCheckField = new Ext.form.Checkbox({
 	label: 'Use Enhanced CSS Display',
-    checked: true,
-    uncheck: function(){
-     alert( ' unchecked' );   
-    }
+    checked: false //true
 });
 
 mobilens.daysOfHistorySlider = new Ext.form.Slider({
@@ -292,7 +289,19 @@ mobilens.userSaveButton = new Ext.Button({
 		}  // end of Save button handler function
 });
 
-
+// Added this code to get the checkbox to work in the Chrome browser
+Ext.form.Checkbox.prototype.onChange = function(e) {
+    if (e) {
+        if (e.browserEvent) {
+                e = e.browserEvent;
+                }
+        if (this.isChecked()) {
+                this.fireEvent('check',this);
+        } else {
+                this.fireEvent('uncheck', this);
+                }
+            }
+};
 
 
 mobilens.userPanel = new Ext.Panel({
@@ -318,10 +327,10 @@ mobilens.userPanel = new Ext.Panel({
 		xtype: 'form',
 		id: 'userform',
         items:[mobilens.userNameField,
-		        mobilens.passwordField,
-                mobilens.testCheckField, 
-		        mobilens.daysOfHistorySlider,
-		        mobilens.daysOfHistoryList
+		       mobilens.passwordField,
+               mobilens.testCheckField, 
+		       mobilens.daysOfHistorySlider,
+		       mobilens.daysOfHistoryList
 		        ]
 	}],
 	
