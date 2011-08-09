@@ -1,8 +1,9 @@
 
-mobilens.cancelButton = '';
-mobilens.activeFiltersOnly = '';
-mobilens.orderListHeight = 62;
-mobilens.orderListSelction = 0;
+//mobilens.cancelButton = '';
+//mobilens.activeFiltersOnly = '';
+//mobilens.orderListHeight = 62;
+//mobilens.orderListSelction = 0;
+
 
 /* **************************************************************** */
 /*                  Main Order Display List                         */
@@ -17,13 +18,12 @@ mobilens.orderList = new Ext.List( {
 	store: mobilens.storeSAPOrders,
 	//selectedItemCls: 'x-list-noSelect', //'does not exist',  // use this as a css class for selected records
 	itemTpl: mobilens.xTplOrdersPrimary,
-    grouped: true,
+    //grouped: true,
     //indexBar: true,
-    indexBar: mobilens.myIndexBar,
+    //indexBar: mobilens.myIndexBar,
     
 	onItemTap: function(dv, index, item) {
         var myR = this.store.data.items[index];
-        
         
         if (item.getTarget('.itemCount') || item.getTarget('.itemCountTestISS1HI0')  || item.getTarget('.itemCountTestISSHI0') || item.getTarget('.itemCountTestISSHI1') || item.getTarget('.itemCountTestISS1HI1') ) // This if statement determines if the target is to select a list item or execute list item disclosure ...rmJr 2011-04-22 
             {
@@ -39,12 +39,11 @@ mobilens.orderList = new Ext.List( {
                  { mobilens.orderListSelction = index; }
                 myR.set('orderDisclose','1');
                 mobilens.storeSAPOrders.filter('orderDisclose','1');
-                this.grouped = false;
+                //this.grouped = false;
                 this.refreshDisplay('expand');
-                this.grouped = true;
+                //this.grouped = true;
                 this.refreshDisplay('expand');
             }
-
 
         if (item.getTarget('.expanded') )
             {   
@@ -148,16 +147,47 @@ mobilens.orderList = new Ext.List( {
                                                         mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
                                                         mobilens.orderList.scroller.scrollTo({x:0,y:0});
                                                     }   
-	            	        						mobilens.storeSAPShipToCustomers.clearFilter();	
-											})});
-                                           
+                                                    mobilens.storeSAPShipToCustomers.clearFilter();	
+                                                    
+                                                db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                                                    function (transaction, resultSet) {
+                                                    
+                                                     mobilens.orderList.applyStoreSort( mobilens.orderSort );
+                                                 
+                                                })});
+                                            })});
 								})});
 					})});
 					mobilens.filterPanel.hide();
         
     },
 
+    applyStoreSort: function(t) {
+        mobilens.orderList.scroller.scrollTo({x:0,y:0});
+        this.refreshDisplay('hide');
+        mobilens.storeSAPOrders.sortBy(t);
+        this.refreshStorePaging();
+        mobilens.storeSAPOrders.clearFilter();
+        mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
+        mobilens.storeSAPOrders.filter('page', mobilens.currentPage);
+        this.refreshDisplay('');
+    },
 
+    refreshStorePaging: function() {
+ 
+        var pageCount = 1;
+        var recCount = 1;
+ 
+        mobilens.storeSAPOrders.each(function(uRecord){
+            uRecord.set('page',pageCount);
+            recCount += 1;
+            if ( recCount > mobilens.pageSize )
+            {
+                pageCount += 1;
+                recCount = 1;            
+            }
+        } );
+    },
 
 	handleOrientation: function(){
 		this.refreshDisplay('');
@@ -676,7 +706,8 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
                                       
                                         //mobilens.orderList.indexBar.hide();
                                         //mobilens.orderList.indexBar.numberSwitch();
-                                        mobilens.storeSAPOrders.sortBy(v);
+                                        //mobilens.storeSAPOrders.sortBy(v);
+                                        mobilens.orderList.applyStoreSort(v);
                                         //mobilens.orderList.indexBar.refresh();
                                         //mobilens.orderList.indexBar.show();
 
@@ -709,7 +740,10 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
         	           } // end of settings item config
            	] }],
 
-          	          items: [mobilens.orderList]
+          	          items: [
+                            mobilens.myIndexBar,
+                            mobilens.orderList
+                            ]
                
            	}],  // End of 'items:' for the main tab panel
 });  // end of application object extended definition
@@ -722,13 +756,13 @@ SACCRM.Main = {
     init : function()
     	{ 
     	this.ui = new Ext.ux.UniversalUI();
+        mobilens.orderList.applyStoreSort(''); //note: passing in an emptry string to this function will sort the list by its default field...rmJr
         mobilens.storeSAPOrders.sortBy('') //note: passing in an emptry string to this function will sort the list by its default field...rmJr
     	mobilens.orderList.refreshDisplay('');
-//        mobilens.orderList.scroller.momentum = false;
-
-        mobilens.orderList.scroller.acceleration = 40;
-        mobilens.orderList.scroller.friction = 0.05;
-        mobilens.orderList.scroller.fps = 70;        
+        //mobilens.orderList.scroller.momentum = false;
+        //mobilens.orderList.scroller.acceleration = 40;
+        //mobilens.orderList.scroller.friction = 0.05;
+        //mobilens.orderList.scroller.fps = 70;        
         
     	}
 			};
@@ -752,6 +786,7 @@ Ext.setup({
       						getOrderData();
       						db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
       								function (transaction, resultSet) {
+                                        mobilens.orderList.refreshStorePaging();
       									getSoldTo();
       									db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
       											function (transaction, resultSet) {
@@ -761,7 +796,7 @@ Ext.setup({
       		      												SACCRM.Main.init();
       		      		      									db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
       		      		      											function (transaction, resultSet) {
-      		      		      												mobilens.orderList.refreshDisplay('');
+      		      		      											//	mobilens.orderList.refreshDisplay('');
       		      		      												} 
       		      		      										);
       		      		      									}, db.onError);  // end of SACCRM.Main.init(); onSuccess function

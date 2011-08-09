@@ -2,6 +2,7 @@
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
 
+
 db.onError = function(tx, e) {
 	  alert('Something unexpected happened: ' + e.message );
 	};
@@ -160,7 +161,8 @@ function getOrderData () {
 		});
 
 
-};
+}
+
 
 
 function getSoldTo() {

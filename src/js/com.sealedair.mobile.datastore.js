@@ -1,6 +1,12 @@
 
 mobilens.orderSort = '';
+mobilens.pageSize = 15;
+mobilens.currentPage = 1;
 
+mobilens.cancelButton = '';
+mobilens.activeFiltersOnly = '';
+mobilens.orderListHeight = 62;
+mobilens.orderListSelction = 0;
 
 /* **************************************************************** */
 /*                  Target Web Service Domain Determination         */
@@ -476,15 +482,19 @@ mobilens.storeSAPOrders = new Ext.data.Store({
         {   
             case 'documentNumberTrim':
                 this.sort( mobilens.orderSort ,'ASC');
-                mobilens.myIndexBar.numberSwitch();
+                //mobilens.myIndexBar.numberSwitch();
                 break;
-            case 'requestedDeliveryDate': case 'documentDate':
+            case 'requestedDeliveryDate': 
+                this.sort( mobilens.orderSort ,'ASC'); 
+                //mobilens.myIndexBar.dateSwitch();
+                break;
+            case 'documentDate':
                 this.sort( mobilens.orderSort ,'DESC'); 
-                mobilens.myIndexBar.dateSwitch();        
+                //mobilens.myIndexBar.dateSwitch();        
                 break;
             default:
                 this.sort( mobilens.orderSort ,'ASC'); 
-                mobilens.myIndexBar.alphaSwitch();
+                //mobilens.myIndexBar.alphaSwitch();
                 break;
         }
     },
@@ -514,10 +524,15 @@ mobilens.storeSAPOrders = new Ext.data.Store({
 
 
 mobilens.myIndexBar = new Ext.IndexBar({
+    dock    : 'right',
+    overlay : true,
     store: mobilens.SAMindexBarStore,
     componentCls: 'SAMindexBar',
+    //direction:'horizontal',
+    direction:'vertical',
     listeners: { 
         index : function(x,y,z){ 
+            alert(y.dom.innerText);
             if( y.dom.innerText === '*' )
                 { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
             if( y.dom.innerText === '#' )
@@ -528,9 +543,11 @@ mobilens.myIndexBar = new Ext.IndexBar({
             }
             },
     numberSwitch: function(){
+        alert( 'number switch');
         this.store.removeAll();
-        this.store.add({key:'primary',value:'*',filter1:'1'});
-        this.store.add({key:'primary',value:'0',filter1:'2'});        
+        this.store.add({key:'primary',value:'|<',filter1:'1'});
+        this.store.add({key:'primary',value:'<<',filter1:'1'});        
+//        this.store.add({key:'primary',value:'0',filter1:'2'});        
         this.store.add({key:'primary',value:'1',filter1:'3'});
         this.store.add({key:'primary',value:'2',filter1:'4'});
         this.store.add({key:'primary',value:'3',filter1:'5'});        
@@ -540,7 +557,9 @@ mobilens.myIndexBar = new Ext.IndexBar({
         this.store.add({key:'primary',value:'7',filter1:'9'});        
         this.store.add({key:'primary',value:'8',filter1:'10'});        
         this.store.add({key:'primary',value:'9',filter1:'11'});        
-        this.store.add({key:'primary',value:'#',filter1:'999'});                
+        this.store.add({key:'primary',value:'10',filter1:'12'});        
+        this.store.add({key:'primary',value:'>>',filter1:'990'});        
+        this.store.add({key:'primary',value:'>|',filter1:'999'});                
     },
 
     dateSwitch: function(){
@@ -589,17 +608,8 @@ mobilens.myIndexBar = new Ext.IndexBar({
         this.store.add({key:'primary',value:'Z',filter1:'27'});        
         this.store.add({key:'primary',value:'#',filter1:'999'});
     }
-    
-    
-    
+     
 });
-
-
-
-
-
-
-
 
 /* **************************************************************** */
 /*                  Store Defaults & Functions                      */
@@ -608,7 +618,6 @@ mobilens.myIndexBar = new Ext.IndexBar({
 mobilens.storeDaysOfHistory.add({isSelected: '0'}); 
 mobilens.storeMessages.add({msg1:'<br>Please wait while data is updated',msg2:'...No Deliveries Exist...'});
 
-
-
+mobilens.myIndexBar.numberSwitch();
 
 
