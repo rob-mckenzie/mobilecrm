@@ -521,8 +521,6 @@ mobilens.storeSAPOrders = new Ext.data.Store({
 	}
 });
 
-
-
 mobilens.myIndexBar = new Ext.IndexBar({
     dock    : 'right',
     overlay : true,
