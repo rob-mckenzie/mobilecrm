@@ -1,4 +1,3 @@
-
 //mobilens.cancelButton = '';
 //mobilens.activeFiltersOnly = '';
 //mobilens.orderListHeight = 62;
@@ -10,7 +9,7 @@
 /* **************************************************************** */
 
 mobilens.orderList = new Ext.List( {
-	cls: 'demo-list',
+    cls: 'demo-list',
 	width: Ext.Element.getViewportWidth(), //Ext.is.Phone ? undefined : Ext.Element.getViewportWidth(),
 	height: Ext.Element.getViewportHeight()-mobilens.orderListHeight, // Ext.is.Phone ? undefined : Ext.Element.getViewportHeight(),   
 	//mode: 'SINGLE',
@@ -359,8 +358,9 @@ mobilens.userPanel = new Ext.Panel({
         items:[mobilens.userNameField,
 		       mobilens.passwordField,
                mobilens.testCheckField, 
-		       mobilens.daysOfHistorySlider,
-		       mobilens.daysOfHistoryList
+               mobilens.daysOfHistoryList,
+		       mobilens.daysOfHistorySlider
+		       //mobilens.daysOfHistoryList
 		        ]
 	}],
 	
