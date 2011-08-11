@@ -207,7 +207,7 @@ mobilens.xTplOrdersPrimary = ''+
 ' <p><span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+ //{custPONumber}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
-
+' <span class="headerLabel">Page:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{page}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
 '<!-- Column 2 end -->'+ 
 '</div></div></div>';
 
@@ -239,6 +239,7 @@ mobilens.xTplOrdersTest = ''+
 ' <span class="headerLabel">Doc Type:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{salesDocumentType}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
 ' <span class="headerLabel">Req Delivery:&nbsp;&nbsp;&nbsp;</span><span class="headerDetail">{requestedDeliveryDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;'+
 ' <span class="headerLabel">Doc Date:&nbsp;&nbsp;&nbsp;{documentDate}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span><span class="headerDetail">'+
+' <span class="headerLabel">Page:&nbsp;&nbsp;&nbsp;</span><span class=headerDetail>{page}&nbsp;&nbsp;&nbsp&nbsp;&nbsp;</span>'+
     '</td></tr></table></tpl>';
 
 

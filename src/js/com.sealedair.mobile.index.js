@@ -168,7 +168,7 @@ mobilens.orderList = new Ext.List( {
         this.refreshStorePaging();
         mobilens.storeSAPOrders.clearFilter();
         mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
-        mobilens.storeSAPOrders.filter('page', mobilens.currentPage);
+        mobilens.storeSAPOrders.filter('page', mobilens.currentPage);  
         this.refreshDisplay('');
     },
 

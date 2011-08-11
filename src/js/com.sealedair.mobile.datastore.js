@@ -532,18 +532,38 @@ mobilens.myIndexBar = new Ext.IndexBar({
     direction:'vertical',
     listeners: { 
         index : function(x,y,z){ 
-            alert(y.dom.innerText);
-            if( y.dom.innerText === '*' )
-                { mobilens.orderList.scroller.scrollTo({x:0,y:0}); }
-            if( y.dom.innerText === '#' )
-                { 
-                    mobilens.orderList.scroller.updateBoundary();
-                    mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
-                }
+            mobilens.storeSAPOrders.clearFilter();
+            
+            switch ( y.dom.innerText )
+            {
+            case '*':
+                mobilens.orderList.scroller.scrollTo({x:0,y:0});
+                break;
+            case '#':
+                mobilens.orderList.scroller.updateBoundary();
+                mobilens.orderList.scroller.scrollTo({x: 0, y:mobilens.orderList.scroller.size.height}, true);
+                break;
+            case '|<':
+                mobilens.currentPage = 1;
+                break;
+            case '<<':
+                mobilens.currentPage += -1;
+                break;
+            case '>>':
+                mobilens.currentPage += 1;
+                break;
+            case '>|':
+                mobilens.currentPage = 10;
+                break;
+            default:
+                mobilens.currentPage = y.dom.innerText;
+                break;
             }
-            },
+            
+            mobilens.orderList.applyShipToFilter();
+        }
+    },
     numberSwitch: function(){
-        alert( 'number switch');
         this.store.removeAll();
         this.store.add({key:'primary',value:'|<',filter1:'1'});
         this.store.add({key:'primary',value:'<<',filter1:'1'});        
