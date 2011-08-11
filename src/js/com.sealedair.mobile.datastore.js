@@ -2,11 +2,11 @@
 mobilens.orderSort = '';
 mobilens.pageSize = 15;
 mobilens.currentPage = 1;
-
 mobilens.cancelButton = '';
 mobilens.activeFiltersOnly = '';
 mobilens.orderListHeight = 62;
 mobilens.orderListSelction = 0;
+
 
 /* **************************************************************** */
 /*                  Target Web Service Domain Determination         */

@@ -1,8 +1,8 @@
+
 //mobilens.cancelButton = '';
 //mobilens.activeFiltersOnly = '';
 //mobilens.orderListHeight = 62;
 //mobilens.orderListSelction = 0;
-
 
 /* **************************************************************** */
 /*                  Main Order Display List                         */
