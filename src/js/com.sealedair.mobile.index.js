@@ -358,9 +358,8 @@ mobilens.userPanel = new Ext.Panel({
         items:[mobilens.userNameField,
 		       mobilens.passwordField,
                mobilens.testCheckField, 
-               mobilens.daysOfHistoryList,
-		       mobilens.daysOfHistorySlider
-		       //mobilens.daysOfHistoryList
+		       mobilens.daysOfHistorySlider,
+		       mobilens.daysOfHistoryList
 		        ]
 	}],
 	
