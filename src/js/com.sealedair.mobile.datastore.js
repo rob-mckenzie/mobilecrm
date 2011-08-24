@@ -1,12 +1,19 @@
 
 mobilens.orderSort = '';
-mobilens.pageSize = 15;
+mobilens.pageSize = 50;
 mobilens.currentPage = 1;
+mobilens.lastPage = mobilens.currentPage;
 mobilens.cancelButton = '';
+mobilens.saveButton = '';
 mobilens.activeFiltersOnly = '';
 mobilens.orderListHeight = 62;
 mobilens.orderListSelction = 0;
-
+mobilens.toggleDirection = '';
+mobilens.toggleValue = '';
+mobilens.currShipToInsert = '';
+mobilens.currShipToSelection = '';
+mobilens.disclose = '';
+mobilens.tblLogin = 'tblLogin2';
 
 /* **************************************************************** */
 /*                  Target Web Service Domain Determination         */
@@ -56,11 +63,17 @@ Ext.regModel('modelIndexBarStore',{
 
 Ext.regModel('modelSystemState',{
 	fields:[
-	{name: 'recordType', type: 'string', defaultValue: ''},
+    {name: 'ID', type: 'integer'},
+    {name: 'recordType', type: 'string', defaultValue: ''},
 	{name: 'primaryListSource', type: 'string', defaultValue: ''},
 	{name: 'filteredShipTo', type: 'string', defaultValue: ''},
 	{name: 'keyValue', type: 'string', defaultValue: ''}
-	]
+	],
+    
+    proxy: {
+        type: 'localstorage',
+        id  : 'systemstate-choices'
+    }
 
 // create a custom function here that handles curtains and orientation changes.
 
@@ -107,7 +120,30 @@ Ext.regModel('modelSapShipTo',{
 	{name: 'salesOrgDesc',     type: 'string'},
 	{name: 'state',     type: 'string'},
 	{name: 'zipCode',     type: 'string'}
-	]
+	],
+    
+    toggleSelection: function()
+    {
+        var Tqry = '';
+        var dbTarget = this.get('firstName');
+        
+		if(this.get('isSelected') == '1')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
+		{
+            this.set('isSelected',''); 
+            Tqry = 'DELETE FROM tblSystemState where recordType = "ShipToFilter" AND recordValue1 = "'+dbTarget+'"';
+            console.log(Tqry);
+            db.transaction(function(transaction){transaction.executeSql(Tqry, [], function (transaction, resultSet) { console.log('DELETE TX complete' ); });}, db.onError);  // end of remove ShipToFilter function
+        }
+		else
+		{
+            this.set('isSelected','1'); 
+            Tqry = 'INSERT INTO tblSystemState(recordType, recordStatus, recordValue1) VALUES ("ShipToFilter","Primary","'+dbTarget+'")';
+            console.log(Tqry);
+            db.transaction(function(transaction){transaction.executeSql(Tqry, [], function (transaction, resultSet) { console.log('INSERT TX complete'); });}, db.onError);  // end of remove ShipToFilter function
+        }
+        
+        loadSystemState();
+    }
 /*
 ,
 	sorters: [
@@ -401,16 +437,21 @@ Ext.regModel('modelSAPOrders', {
 /* **************************************************************** */
 
 Ext.regModel('SAMUser', {
-    fields: ['userName', 'password','lastUpdated', 'numOfDays', 'lastResponse'],
+    fields: ['userName', 'password','lastUpdated', 'numOfDays', 'lastResponse', 'userConfig1', 'userConfig2', 'userConfig3', 'userConfig4', 'userConfig5'],
     refreshResponse: function() {
         var myD = new Date();
         var myName = this.get('userName');
         var myPassword = this.get('password');
         var myResponse = this.get('lastResponse');
         var daysOfHistory = this.get('numOfDays');
-
-        db.transaction(function(transaction){transaction.executeSql('DELETE FROM tblLogin',[],[],db.onError)});					
-        db.transaction(function(transaction){transaction.executeSql('INSERT INTO tblLogin (username, password, refreshed, lastResponse, daysOfHistory) VALUES (?,?,?,?,?)',[myName,myPassword,myD,myResponse,daysOfHistory],[],db.onError)});
+        var uC1 = this.get('userConfig1');
+        var uC2 = this.get('userConfig2');
+        var uC3 = this.get('userConfig3');
+        var uC4 = this.get('userConfig4');
+        var uC5 = this.get('userConfig5');
+        
+        db.transaction(function(transaction){transaction.executeSql('DELETE FROM ' + mobilens.tblLogin,[],[],db.onError)});					
+        db.transaction(function(transaction){transaction.executeSql('INSERT INTO ' + mobilens.tblLogin + ' (username, password, refreshed, lastResponse, daysOfHistory, userConfig1, userConfig2, userConfig3, userConfig4, userConfig5) VALUES (?,?,?,?,?,?,?,?,?,?)',[myName,myPassword,myD,myResponse,daysOfHistory,uC1,uC2,uC3,uC4,uC5],[],db.onError)});
     }
 });
 
@@ -449,6 +490,17 @@ mobilens.storeMessages = new Ext.data.Store({
     getGroupString : function(record) {
         return 'A';
 	}
+});
+
+mobilens.storeShipToChoices = new Ext.data.Store({
+   model: 'modelSystemState'    
+});
+
+mobilens.storeShipToChoices.load();
+
+
+mobilens.storeShipToChoices.each( function(tRec){
+    alert( tRec.get('filteredShipTo') );
 });
 
 
@@ -528,6 +580,7 @@ mobilens.myIndexBar = new Ext.IndexBar({
     componentCls: 'SAMindexBar',
     //direction:'horizontal',
     direction:'vertical',
+    
     listeners: { 
         index : function(x,y,z){ 
             mobilens.storeSAPOrders.clearFilter();
@@ -545,37 +598,46 @@ mobilens.myIndexBar = new Ext.IndexBar({
                 mobilens.currentPage = 1;
                 break;
             case '<<':
-                mobilens.currentPage += -1;
+                if( mobilens.currentPage > 1 )
+                { mobilens.currentPage -= 1; }
                 break;
             case '>>':
-                mobilens.currentPage += 1;
+                if( mobilens.currentPage < mobilens.lastPage )
+                {mobilens.currentPage += 1;}
                 break;
             case '>|':
-                mobilens.currentPage = 10;
+                mobilens.currentPage = mobilens.lastPage;
                 break;
-            default:
+            default:   // this case handles direct page number assignment
                 mobilens.currentPage = y.dom.innerText;
                 break;
             }
-            
+
             mobilens.orderList.applyShipToFilter();
         }
     },
-    numberSwitch: function(){
+
+    makeHidden: function(){
         this.store.removeAll();
+    },
+    
+    numberSwitch: function(){
+        var numLoop = mobilens.lastPage;
+        
+        this.store.removeAll();
+        
         this.store.add({key:'primary',value:'|<',filter1:'1'});
-        this.store.add({key:'primary',value:'<<',filter1:'1'});        
-//        this.store.add({key:'primary',value:'0',filter1:'2'});        
-        this.store.add({key:'primary',value:'1',filter1:'3'});
-        this.store.add({key:'primary',value:'2',filter1:'4'});
-        this.store.add({key:'primary',value:'3',filter1:'5'});        
-        this.store.add({key:'primary',value:'4',filter1:'6'});        
-        this.store.add({key:'primary',value:'5',filter1:'7'});        
-        this.store.add({key:'primary',value:'6',filter1:'8'});        
-        this.store.add({key:'primary',value:'7',filter1:'9'});        
-        this.store.add({key:'primary',value:'8',filter1:'10'});        
-        this.store.add({key:'primary',value:'9',filter1:'11'});        
-        this.store.add({key:'primary',value:'10',filter1:'12'});        
+        this.store.add({key:'primary',value:'<<',filter1:'1'}); 
+        
+        if( numLoop > 10 )
+        { numLoop = 10; }
+        
+        for( mp = 1; mp<numLoop+1; mp++)
+        { this.store.add({key:'primary',value:''+mp,filter1:'5'}); }
+        
+        if( mobilens.lastPage > 10 )
+        { this.store.add({key:'primary',value:''+mobilens.lastPage,filter1:'5'}); }
+        
         this.store.add({key:'primary',value:'>>',filter1:'990'});        
         this.store.add({key:'primary',value:'>|',filter1:'999'});                
     },

@@ -316,7 +316,7 @@ function restifySAPPartnersXML(xmlHttpRequest, status){
 	}
 };
 
-function soapSAPOrders(docfrom, docto, username, password) 
+function soapSAPOrders(docfrom, docto, username, password, prodType) 
 { 	
 	var soapMessage = '<SOAP-ENV:Envelope \
 	    xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" \
@@ -333,7 +333,7 @@ function soapSAPOrders(docfrom, docto, username, password)
 		<pns:shipTo></pns:shipTo> \
 		<pns:docFrom>'+docfrom+'T00:00:00.000+00:00</pns:docFrom> \
 		<pns:docTo>'+docto+'T23:59:59.999+00:00</pns:docTo> \
-		<pns:productType></pns:productType> \
+		<pns:productType>'+prodType+'</pns:productType> \
 		<pns:customerProductNo></pns:customerProductNo> \
 		<pns:docStat></pns:docStat> \
 		<pns:documentId></pns:documentId> \

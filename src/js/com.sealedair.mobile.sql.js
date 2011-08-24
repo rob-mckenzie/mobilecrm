@@ -15,7 +15,19 @@ db.onSuccess = function(tx, r) {
 	// console.log(r); 
 	};
 
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblLogin (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT)',[],[],db.onError)});
+//db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblLogin (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT)',[],[],db.onError)});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS '+mobilens.tblLogin+' (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT, userConfig1 TEXT, userConfig2 TEXT, userConfig3 TEXT, userConfig4 TXT, userConfig5 TXT)',[],
+    function(tx,resultsSet){
+        db.transaction(function(tx){tx.executeSql('INSERT INTO '+mobilens.tblLogin+'(username,password, daysOfHistory, lastResponse, refreshed) SELECT username,password, daysOfHistory, lastResponse, refreshed FROM tblLogin',[],
+            function(tx,resultsSet){
+                db.transaction(function(tx){tx.executeSql('DELETE FROM tblLogin',[],
+                    function(tx,resultsSet){
+                        console.log('user table upgrade complete.');
+                    },db.onError)});
+            },db.onError)});
+    },db.onError)});
+
+
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSoldTo (soldto TEXT,JSONSoldTo TEXT,refreshed TEXT)',[],[],db.onError)});
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSalesArea (salesorg TEXT, division TEXT, distchannel,JSONSalesArea TEXT,refreshed TEXT)',[],[],db.onError)});
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblShipTo (shipto TEXT,salesorg TEXT, division TEXT, distchannel TEXT, JSONShipTo TEXT,refreshed TEXT)',[],[],db.onError)});
@@ -23,10 +35,11 @@ db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblOrders 
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblOrders2 (ordernum TEXT,JSONOrderHeader2 TEXT,refreshed TEXT)',[],[],db.onError)});
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDetails (ordernum TEXT, itemnum TEXT,JSONOrderDetail TEXT,refreshed TEXT)',[],[],db.onError)});
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDeliveries (ordernum TEXT, itemnum TEXT,deliverynum TEXT, JSONDeliveryDetail TEXT,refreshed TEXT)',[],[],db.onError)});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSystemState (recordType TEXT, recordStatus TEXT,recordValue1 TEXT, recordValue2 TEXT,recordValue3 TEXT)',[],[],db.onError)});
 
 function getLoginCredentials() {
 
-	var loginQry = 'select \'{"userName":"\' || ifNull(username,\'\') || \'","password":"\' || ifNull(password,\'\') || \'","numOfDays":"\' || ifNull(daysOfHistory,\'0\') || \'","lastResponse":"\' || ifNull(lastResponse,\'empty\') || \'"}\' as creds FROM tblLogin ';
+	var loginQry = 'select \'{"userName":"\' || ifNull(username,\'\') || \'","password":"\' || ifNull(password,\'\') || \'","numOfDays":"\' || ifNull(daysOfHistory,\'0\') || \'","lastResponse":"\' || ifNull(lastResponse,\'empty\') || \'","userConfig1":"\' || ifNull(userConfig1,\'\') || \'","userConfig2":"\' || ifNull(userConfig2,\'\') || \'","userConfig3":"\' || ifNull(userConfig3,\'\') || \'","userConfig4":"\' || ifNull(userConfig4,\'\') || \'","userConfig5":"\' || ifNull(userConfig5,\'\') || \'"}\' as creds FROM ' + mobilens.tblLogin;
 		
 	db.transaction(function(transaction){transaction.executeSql(loginQry, [],
 			function (transaction, resultSet) {
@@ -37,7 +50,7 @@ function getLoginCredentials() {
 				}
 				
 				if( mobilens.SAMuserStore.getCount() < 1 )
-					{ mobilens.SAMuserStore.add({userName: '',password: '',lastUpdated:'', numOfDays:'0',lastResponse:'empty'})
+					{ mobilens.SAMuserStore.add({userName: '',password: '',lastUpdated:'', numOfDays:'0',lastResponse:'empty'});
 					toggleUserPanel('1');
 					}
 				}
@@ -46,7 +59,7 @@ function getLoginCredentials() {
   );
 }
 
-function setLoginCredentials(newUser, newPass, daysOfHistory, getBaseData) {
+function setLoginCredentials(newUser, newPass, daysOfHistory, getBaseData, userCfg1, userCfg2, userCfg3, userCfg4, userCfg5) {
 
 	var tmpResponse = soapSAPLogin(newUser, newPass, getBaseData);
 	
@@ -60,6 +73,11 @@ function setLoginCredentials(newUser, newPass, daysOfHistory, getBaseData) {
 			if (daysOfHistory > 0)
 				{ uRecord.set('numOfDays',daysOfHistory); }
 			uRecord.set('lastResponse',tmpResponse);
+            uRecord.set('userConfig1',userCfg1);
+            uRecord.set('userConfig2',userCfg2);
+            uRecord.set('userConfig3',userCfg3);
+            uRecord.set('userConfig4',userCfg4);
+            uRecord.set('userConfig5',userCfg5);
 			uRecord.refreshResponse();
 		    } );
 }	
@@ -182,7 +200,7 @@ function getSoldTo() {
 			);
 		}
 	);
-};
+}
 
 function getShipTo() {
 
@@ -192,16 +210,29 @@ function getShipTo() {
 				function (transaction, resultSet) {
 					for (var i=0; i<resultSet.rows.length; i++) {
 						var row = resultSet.rows.item(i);   
-						orderInfo[i] = [row["JSONShipTo"], ];
+						orderInfo[i] = row.JSONShipTo;
 						//alert(orderInfo[i]);
-						mobilens.storeSAPShipToCustomers.add(JSON.parse(orderInfo[i]));
+						var thisWreck = mobilens.storeSAPShipToCustomers.add(JSON.parse(orderInfo[i]));
+                        // write the name out to a global variable
+                        mobilens.currShipToInsert = thisWreck[0].get('firstName');
+                        mobilens.currShipToSelection = '';
+                        
+                        // run loop and set global variable
+                        mobilens.storeShipToChoices.each(function(trec){
+                          if(  trec.get('filteredShipTo') === mobilens.currShipToInsert )
+                          {
+                           mobilens.currShipToSelection = '1';   
+                          }
+                        });
+                        
+                        thisWreck[0].set('isSelected', mobilens.currShipToSelection);
 					}
 					console.log(resultSet.rows.length + ' Ship To partners added to Store!');
 					}
 			);
 		}
 	);
-};
+}
 
 function getOrderData2() {
 	
@@ -412,7 +443,34 @@ mobilens.urlPanel = new Ext.Panel({
 function displayTargetURL( srcURL, srcTitle) {
  
     mobilens.deliveryPnl.hide();
-    var srcHTML = '<iframe align=center width=687px height=350px src="'+srcURL+'">iFrame Not Supported</iframe>';
+    var srcHTML = '<iframe scrolling="auto" width=600px height=300px src="'+srcURL+'">iFrame Not Supported</iframe>';
     mobilens.urlPanel.items.items[0].html = srcHTML;
     mobilens.urlPanel.show();
 }
+
+
+
+
+
+// Load system state parameters into ShipToStore
+function loadSystemState() {
+
+    mobilens.storeShipToChoices.removeAll();
+    
+    db.transaction(function(transaction){transaction.executeSql("select recordValue1 from tblSystemState where recordType = 'ShipToFilter'", [],
+				function (transaction, resultSet) {
+						var returnL = resultSet.rows.length;
+						if( returnL > 0 )
+							{
+								for (var k=0; k<returnL; k++) {
+										var row = resultSet.rows.item(k);
+                                        mobilens.storeShipToChoices.add({filteredShipTo: row.recordValue1});
+										}
+							}
+					});
+    }); // end of the loading system state parameters
+
+}
+
+loadSystemState();
+
