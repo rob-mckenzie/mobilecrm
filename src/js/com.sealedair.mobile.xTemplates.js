@@ -341,11 +341,10 @@ mobilens.xTplOrdersPrimaryPortraitExpand = '<tpl for="."><div class="colmask dou
 mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" border=1 align=center width=100%>'+
 '<table  table align=center width=100% border=0 class="detailT" >'+
 '<caption class="detailC">'+
-'<tpl if="trackingURL != \'\' && trackingURL != \'NA\' && trackingURL != \'N/A\' && trackingURL != \'na\' && trackingURL != \'n/a\'"><div><br><p class="xTplItemDelivery" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');">Tracking Number: <span class="xTplItemDeliveryLink">'+
-'<tpl if="trackingNo != \'\'"> {trackingNo} </tpl>'+
-'<tpl if="trackingNo == \'\'">Tap Here To Track </tpl></span>'+
-'</caption><thead>'+
-
+'<div><br><p class="xTplItemDelivery">'+
+'<tpl if="trackingNo = \'\'"> <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'http://www.google.com\', \'Tracking Info\');"> Google Search Engine </span></tpl>'+
+'<tpl if="trackingNo != \'\'">Tracking Number: <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');"> {trackingNo} </span></tpl>'+
+'</div></caption><thead>'+
 '<tr>'+
 '<th scope="col" class="detailTH">DeliveryNo</td>'+
 '<th scope="col" class="detailTH">Position</td>'+
