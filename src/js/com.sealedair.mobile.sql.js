@@ -3,10 +3,7 @@ var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*10
 var orderInfo = [];
 
 db.onError = function(tx, e) {
-	  try
-      { alert('Something unexpected happened: ' + e.message ); }
-      catch( err )
-      { console.log('unable to log error: '+ err ); }
+      alert('Something unexpected happened: ' + e.message );
 	};
 
 db.onSuccess = function(tx, r) {
