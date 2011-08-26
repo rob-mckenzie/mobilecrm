@@ -22,7 +22,7 @@ db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS '+mobilens
             function(tx,resultsSet){
                 db.transaction(function(tx){tx.executeSql('DELETE FROM tblLogin',[],
                     function(tx,resultsSet){
-                        console.log('user table upgrade complete.');
+                        console.log('user table upgrade complete.');  //DELETE FROM tblSystemState 
                     },db.onError)});
             },db.onError)});
     },db.onError)});

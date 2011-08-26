@@ -462,11 +462,17 @@ mobilens.filterPanel = new Ext.Panel({
 				text: 'Clear Selection', //'Clear Filter',
 				ui: 'action',
 				handler: function() {
+                    
+                    db.transaction(function(tx){tx.executeSql('DELETE FROM tblSystemState',[],
+                    function(tx,resultsSet){
+                        console.log('System state table cleared.'); 
+                    },db.onError)});
+                    
 					//mobilens.storeSAPOrders.clearFilter();
 					mobilens.storeSAPShipToCustomers.filter('isSelected','1');
 					mobilens.storeSAPShipToCustomers.each(function(clrRecord){
                         if( clrRecord.get('isSelected') === '1')
-                        { clrRecord.toggleSelection(); }
+                        { clrRecord.set('isSelected', ''); }
 					});
 					mobilens.storeSAPShipToCustomers.clearFilter();
 					//mobilens.filterPanel.hide();
