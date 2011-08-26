@@ -145,11 +145,11 @@ mobilens.orderList = new Ext.List( {
                                                     function (transaction, resultSet) {
                                                     mobilens.orderList.refreshDisplay('displayOrders' );
                                                     
-                                                    if( mobilens.storeSAPShipToCustomers.getCount() > 0 )
-                                                    {
+                                                    //if( mobilens.storeSAPShipToCustomers.getCount() > 0 )
+                                                    //{
                                                         mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
                                                         mobilens.orderList.scroller.scrollTo({x:0,y:0});
-                                                    }   
+                                                    //}   
                                                     mobilens.storeSAPShipToCustomers.clearFilter();	
                                                     
                                                 db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
@@ -428,6 +428,7 @@ mobilens.filterPanel = new Ext.Panel({
 		modal: true,
 		width: 700,
 		height: 600,
+        hideOnMaskTap: false,
 
 		dockedItems: [{
 			dock: 'top',

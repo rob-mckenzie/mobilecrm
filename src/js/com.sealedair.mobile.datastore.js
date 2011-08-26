@@ -609,7 +609,7 @@ mobilens.myIndexBar = new Ext.IndexBar({
                 mobilens.currentPage = mobilens.lastPage;
                 break;
             default:   // this case handles direct page number assignment
-                mobilens.currentPage = y.dom.innerText;
+                mobilens.currentPage = parseInt( y.dom.innerText,10 );
                 break;
             }
 
