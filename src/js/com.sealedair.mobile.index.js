@@ -163,10 +163,10 @@ mobilens.orderList = new Ext.List( {
     applyStoreSort: function(t) {
         mobilens.orderList.scroller.scrollTo({x:0,y:0});
         this.refreshDisplay('hide');
-        mobilens.storeSAPOrders.sortBy(t);
-        this.refreshStorePaging();
         mobilens.storeSAPOrders.clearFilter();
+        mobilens.storeSAPOrders.sortBy(t);
         mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
+        this.refreshStorePaging();
         mobilens.storeSAPOrders.filter('page', mobilens.currentPage);  
         this.refreshDisplay('');
     },
