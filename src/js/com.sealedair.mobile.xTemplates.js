@@ -342,7 +342,7 @@ mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" bord
 '<table  table align=center width=100% border=0 class="detailT" >'+
 '<caption class="detailC">'+
 '<div><br><p class="xTplItemDelivery">'+
-'<tpl if="trackingNo = \'\'"> <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'http://www.google.com\', \'Tracking Info\');"> Google Search Engine </span></tpl>'+
+'News Site: <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'http://www.cnn.com\', \'Tracking Info\');"> CNN </span>'+
 '<tpl if="trackingNo != \'\'">Tracking Number: <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');"> {trackingNo} </span></tpl>'+
 '</div></caption><thead>'+
 '<tr>'+
