@@ -1,3 +1,4 @@
+// # ver 255
 
 // Namespace Declarations
 Ext.ns('SACCRM', 'mobilens', 'Ext.ux');
@@ -342,7 +343,6 @@ mobilens.xTplItemDelivery  =  '<tpl for="."><table class="xTplItemDelivery" bord
 '<table  table align=center width=100% border=0 class="detailT" >'+
 '<caption class="detailC">'+
 '<div><br><p class="xTplItemDelivery">'+
-'Yahoo Site: <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'http://www.cnn.com\', \'Tracking Info\');"> CNN not Yahoo </span>'+
 '<tpl if="trackingNo != \'\'">Tracking Number: <span class="xTplItemDeliveryLink" onClick="displayTargetURL( \'{trackingURL}\', \'Tracking Info\');"> {trackingNo} </span></tpl>'+
 '</div></caption><thead>'+
 '<tr>'+
