@@ -1,4 +1,4 @@
-// # ver 255
+// # ver 256
 
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
@@ -15,7 +15,7 @@ db.onSuccess = function(tx, r) {
 	// console.log(r); 
 	};
 
-//db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblLogin (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT)',[],[],db.onError)});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblLogin (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT)',[],[],db.onError)});
 db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS '+mobilens.tblLogin+' (username TEXT,password TEXT, daysOfHistory TEXT, lastResponse TEXT,refreshed TEXT, userConfig1 TEXT, userConfig2 TEXT, userConfig3 TEXT, userConfig4 TXT, userConfig5 TXT)',[],
     function(tx,resultsSet){
         db.transaction(function(tx){tx.executeSql('INSERT INTO '+mobilens.tblLogin+'(username,password, daysOfHistory, lastResponse, refreshed) SELECT username,password, daysOfHistory, lastResponse, refreshed FROM tblLogin',[],
