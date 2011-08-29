@@ -443,7 +443,7 @@ mobilens.urlPanel = new Ext.Panel({
 function displayTargetURL( srcURL, srcTitle) {
  
     mobilens.deliveryPnl.hide();
-    var srcHTML = '&nbsp;&nbsp;&nbsp;<span class="browserOpen"><a href="'+srcURL+'">Open In Browser</a></span><br>&nbsp;&nbsp;&nbsp;<span class="browserOpenNote">note: When opening this link in your browser, please close and return to this application; do not use the back button.</span><div style=" overflow:hidden; margin:auto; width:680px; height:495px;""><iframe width="680px" height="495px" src="'+srcURL+'">iFrame Not Supported</iframe>';
+    var srcHTML = '&nbsp;&nbsp;&nbsp;<span class="browserOpen"><a href="'+srcURL+'">Open In Browser</a></span><br><br><div style=" overflow:hidden; margin:auto; width:680px; height:495px;""><iframe width="680px" height="495px" src="'+srcURL+'">iFrame Not Supported</iframe>';
     mobilens.urlPanel.items.items[0].html = srcHTML;
     mobilens.urlPanel.show();
 }
