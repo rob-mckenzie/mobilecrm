@@ -1,4 +1,4 @@
-// # ver 255
+// # ver 258
 
 /* **************************************************************** */
 /*                  Main Order Display List                         */
@@ -92,7 +92,7 @@ mobilens.orderList = new Ext.List( {
 
         this.initComponent();
         this.refresh();		
-        if ( listAction === 'expand' )
+        if ( listAction === 'expand' || listAction === 'hideOrders' )
             { this.scroller.scrollTo({x:0,y:0}); }
         else
             if( mobilens.orderListSelction > 0 )
@@ -139,7 +139,7 @@ mobilens.orderList = new Ext.List( {
                                         
                                             db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
                                                     function (transaction, resultSet) {
-                                                    mobilens.orderList.refreshDisplay('displayOrders' );
+                                                    
                                                     
                                                     //if( mobilens.storeSAPShipToCustomers.getCount() > 0 )
                                                     //{
@@ -152,7 +152,13 @@ mobilens.orderList = new Ext.List( {
                                                     function (transaction, resultSet) {
                                                     
                                                      mobilens.orderList.applyStoreSort( mobilens.orderSort );
+                                                     
+                                                     db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                                                        function (transaction, resultSet) {
+                                                    
+                                                            mobilens.orderList.refreshDisplay('displayOrders' );
                                                  
+                                                    })});
                                                 })});
                                             })});
 								})});
@@ -175,7 +181,7 @@ mobilens.orderList = new Ext.List( {
     refreshStorePaging: function() {
  
         mobilens.lastPage = 1;
-        var recCount = 1;
+        var recCount = 0;
  
         mobilens.storeSAPOrders.each(function(uRecord){
             uRecord.set('page',mobilens.lastPage);
@@ -413,6 +419,46 @@ mobilens.userPanel = new Ext.Panel({
 	}
 });
 
+/* **************************************************************** */
+/*                  ShipTo customer list                            */
+/* **************************************************************** */
+
+mobilens.shipToList = new Ext.List( {
+    //cls: 'SAMlist',
+    height: 457,
+	xtype: 'list',
+	mode: 'SINGLE',
+	store: mobilens.storeSAPShipToCustomers,
+	//selectedItemCls: 'x-view-selected-rob',  // use this as a css class for selected records
+	itemTpl: mobilens.xTplShipToPrimary,
+	grouped: true,
+	indexBar: true,
+			
+	onItemTap: function(dv, index, item) {
+		var myR = this.store.data.items[index];
+        myR.toggleSelection();
+        
+	}, // end of onItemTap            
+                
+    refreshDisplay: function(listAction){
+
+        if ( listAction === 'hide')
+            {
+                this.bindStore(mobilens.storeMessages);
+                this.itemTpl = mobilens.xTplMsgWait; 
+            }
+        else
+            {
+                this.bindStore(mobilens.storeSAPShipToCustomers);
+                this.itemTpl = mobilens.xTplShipToPrimary;
+		    }
+
+        this.initComponent();
+        this.refresh();		
+        this.scroller.scrollTo({x:0,y:0});
+    }
+
+});
 
 /* **************************************************************** */
 /*                  Filter Panel                                    */
@@ -438,13 +484,30 @@ mobilens.filterPanel = new Ext.Panel({
                 ui: 'action',
 				handler: function() {
 					//mobilens.filterPanel.hide();
-                    mobilens.storeSAPShipToCustomers.filter('isSelected','');
-                    mobilens.storeSAPShipToCustomers.each(function(clrRecord){
-                        if( clrRecord.get('isSelected') != '1')
-                        { clrRecord.toggleSelection(); }
-					});
-					mobilens.storeSAPShipToCustomers.clearFilter();
-				}
+                    
+                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                        function(tx,resultsSet){
+                    
+                            mobilens.shipToList.refreshDisplay('hide');
+                            
+                            db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                               function(tx,resultsSet){
+                                    
+                                    mobilens.storeSAPShipToCustomers.filter('isSelected','');
+                                    mobilens.storeSAPShipToCustomers.each(function(clrRecord){
+                                        if( clrRecord.get('isSelected') != '1')
+                                        { clrRecord.toggleSelection(); }
+                                    });
+					                mobilens.storeSAPShipToCustomers.clearFilter();
+                    
+                                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                                        function(tx,resultsSet){
+                                            mobilens.shipToList.refreshDisplay('show');
+                                    },db.onError)});
+                                    
+                            },db.onError)});
+                    },db.onError)});
+                }
 			},{
 				xtype: 'spacer'
 			},{
@@ -465,41 +528,35 @@ mobilens.filterPanel = new Ext.Panel({
                         console.log('System state table cleared.'); 
                     },db.onError)});
                     
-					//mobilens.storeSAPOrders.clearFilter();
-					mobilens.storeSAPShipToCustomers.filter('isSelected','1');
-					mobilens.storeSAPShipToCustomers.each(function(clrRecord){
-                        if( clrRecord.get('isSelected') === '1')
-                        { clrRecord.set('isSelected', ''); }
-					});
-					mobilens.storeSAPShipToCustomers.clearFilter();
-					//mobilens.filterPanel.hide();
+                    
+                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                        function(tx,resultsSet){
+                    
+                            mobilens.shipToList.refreshDisplay('hide');
+                            
+                            db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                               function(tx,resultsSet){
+                                    
+                                    mobilens.storeSAPShipToCustomers.filter('isSelected','1');
+    				                mobilens.storeSAPShipToCustomers.each(function(clrRecord){
+                                        if( clrRecord.get('isSelected') === '1')
+                                            { clrRecord.set('isSelected', ''); }
+					                    });
+					                mobilens.storeSAPShipToCustomers.clearFilter();
+                    
+                                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                                        function(tx,resultsSet){
+                                            mobilens.shipToList.refreshDisplay('show');
+                                    },db.onError)});
+                                    
+                            },db.onError)});
+                    },db.onError)});
 				}
 			}
 			]
 		}],
 
-		items: [{
-			cls: 'SAMlist',
-			items: [{
-				height: 457,
-				xtype: 'list',
-				mode: 'SINGLE',
-				store: mobilens.storeSAPShipToCustomers,
-				//selectedItemCls: 'x-view-selected-rob',  // use this as a css class for selected records
-				itemTpl: mobilens.xTplShipToPrimary,
-				grouped: true,
-				indexBar: true,
-				
-				onItemTap: function(dv, index, item) {
-					var myR = this.store.data.items[index];
-                    myR.toggleSelection();
-                    
-				} // end of onItemTap
-
-			}]
-		}
-		        
-		        ]  // end of filter panel items   
+		items: [mobilens.shipToList] // end of filter panel items
 });
 
 
@@ -556,7 +613,8 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
          		   			handler: function() 
          		   				{
          		   				mobilens.orderList.refreshDisplay('hideOrders' );
-         		   				
+         		   				mobilens.currentPage = 1;
+                                    
          		   				var daysOH = 0;
          		   				daysOH = mobilens.SAMuserStore.first().get('numOfDays').valueOf();
          		   				daysOH = -1 * daysOH
@@ -583,7 +641,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
                  		              		   							
                  		              		   							db.transaction(function(tx)
                          		              		   						{
-                                                                                mobilens.orderList.refreshDisplay('displayOrders' );      
+                                                                                //mobilens.orderList.refreshDisplay('displayOrders' );      
                  		              		   									
                                                                                       
                                                                                 db.transaction(function(tx)
