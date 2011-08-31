@@ -1,4 +1,4 @@
-// # ver 258
+// # ver 259
 
 mobilens.orderSort = '';
 mobilens.pageSize = 50;
@@ -66,18 +66,14 @@ Ext.regModel('modelSystemState',{
 	fields:[
     {name: 'ID', type: 'integer'},
     {name: 'recordType', type: 'string', defaultValue: ''},
+    {name: 'recordStatus', type: 'string', defaultValue: ''},
+    {name: 'value1', type: 'string', defaultValue: ''},
+    {name: 'value2', type: 'string', defaultValue: ''},
+    {name: 'value3', type: 'string', defaultValue: ''},
 	{name: 'primaryListSource', type: 'string', defaultValue: ''},
 	{name: 'filteredShipTo', type: 'string', defaultValue: ''},
 	{name: 'keyValue', type: 'string', defaultValue: ''}
-	],
-    
-    proxy: {
-        type: 'localstorage',
-        id  : 'systemstate-choices'
-    }
-
-// create a custom function here that handles curtains and orientation changes.
-
+	]
 });
 
 
@@ -297,7 +293,7 @@ Ext.regModel('modelSapOrders2',{
 	transferData: function(recIndex){
 		//console.log('calling transferData routine');
 		
-		var thisRec = mobilens.storeSAPOrders.getAt(parseInt(recIndex));
+		var thisRec = mobilens.storeSAPOrders.getAt(parseInt(recIndex,10));
 
 		thisRec.set('payerAddress', this.get('payerAddress') );
 		thisRec.set('totalOrderVolume', this.get('totalOrderVolume') );
@@ -497,13 +493,63 @@ mobilens.storeShipToChoices = new Ext.data.Store({
    model: 'modelSystemState'    
 });
 
-mobilens.storeShipToChoices.load();
+mobilens.storeOrderTypeChoices = new Ext.data.Store({
+    model: 'modelSystemState',
+    data : [
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'CR', value2 : 'Credit Memo Request' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KA', value2 : 'Consignment Pick-up' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KB', value2 : 'Consignment Fill-up' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KE', value2 : 'Consignment Issue' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'FD', value2 : 'Deliv. Free of Charge' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KR', value2 : 'Consignment Returns' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'DR', value2 : 'Debit Memo Request' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'RE', value2 : 'Returns' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'OR', value2 : 'Standard order' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'YRE', value2 : 'Returns EPT' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZC', value2 : 'Call-Off Order' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZCR', value2 : 'Dev Credit Req' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZEP', value2 : 'Order Eqpt. Pay Term' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZI01', value2 : 'IntraCo Betw. plants' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZK', value2 : 'Commission Trans Req' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZRE', value2 : 'Returns Interim' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZREP', value2 : 'Returns' }        
+        ],
+    
+    updateStatus: function(keyValue, valueStatus){
+        this.data.each(function(dRec){
+            if( dRec.get('value1') === keyValue )
+                { 
+                    dRec.set('recordStatus',valueStatus);
+                    return false;
+                }
+        });
+    },
+    
+    toggleSelection: function(myIndex)
+    {
+        var Tqry = '';
+        var myR = this.data.items[myIndex];
+        var dbTarget = myR.get('value1');
+        
+        if(myR.get('recordStatus') == 'Active')  // This if statement sets a flag field in the datasource to display selected item css  ...rmJr 2011-04-22
+		{
+            myR.set('recordStatus','Inactive'); 
+            Tqry = 'DELETE FROM tblSystemState where recordType = "orderType" AND recordValue1 = "'+dbTarget+'"';
+            console.log(Tqry);
+            db.transaction(function(transaction){transaction.executeSql(Tqry, [], function (transaction, resultSet) { console.log('DELETE TX complete' ); });}, db.onError);  // end of remove ShipToFilter function
+        }
+		else
+		{
+            myR.set('recordStatus','Active'); 
+            Tqry = "INSERT INTO tblSystemState (recordType, recordStatus, recordValue1) VAlUES('orderType','Active','"+dbTarget+"')";
+            console.log(Tqry);
+            db.transaction(function(transaction){transaction.executeSql(Tqry, [], function (transaction, resultSet) { console.log('INSERT TX complete'); });}, db.onError);  // end of remove ShipToFilter function
+        }
+    }
 
-
-mobilens.storeShipToChoices.each( function(tRec){
-    alert( tRec.get('filteredShipTo') );
+    
+    
 });
-
 
 mobilens.SAMindexBarStore = new Ext.data.Store({
     model: 'modelIndexBarStore',

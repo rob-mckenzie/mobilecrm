@@ -1,4 +1,4 @@
-// # ver 258
+// # ver 259
 
 // Namespace Declarations
 Ext.ns('SACCRM', 'mobilens', 'Ext.ux');
@@ -385,6 +385,7 @@ mobilens.xTplDaysOfHistory =  '<tpl for="."><p class="xTplDaysOfHistory">{isSele
 
 
 mobilens.xTplSoldToPrimary = '<p class="xTplSoldTo"><tpl for=".">{customerName} [ {customerNo} ] {customerCity}</tpl></p>';
+mobilens.xTplOrderTypePrimary = '<tpl for="."><span class="xTplShipTo"><tpl if="recordStatus==\'Active\'"> &nbsp;&nbsp;&nbsp;X&nbsp;&nbsp;&nbsp; </tpl>{value2} ( {value1} )</span></tpl>';
 mobilens.xTplMsgWait =  '<p class="xTplMsgWait"><tpl for=".">{msg1}</tpl></p><div class="SAMprogress"></div>';
 mobilens.xTplMsgNoDelivery =  '<p class="xTplMsgWait"><tpl for=".">{msg2}</tpl></p>';
 

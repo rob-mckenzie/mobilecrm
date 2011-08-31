@@ -1,4 +1,4 @@
-// # ver 258
+// # ver 259
 
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
@@ -455,6 +455,7 @@ function displayTargetURL( srcURL, srcTitle) {
 // Load system state parameters into ShipToStore
 function loadSystemState() {
 
+    // Load ShipTo Choices
     mobilens.storeShipToChoices.removeAll();
     
     db.transaction(function(transaction){transaction.executeSql("select recordValue1 from tblSystemState where recordType = 'ShipToFilter'", [],
@@ -470,7 +471,85 @@ function loadSystemState() {
 					});
     }); // end of the loading system state parameters
 
+    // Load Order Type Choices - no need to RemoveAll b/c we are only going to update records in the list
+    db.transaction(function(transaction){transaction.executeSql("select recordStatus, recordValue1 from tblSystemState where recordType = 'orderType'", [],
+                function (transaction, resultSet) {
+                        var returnL = resultSet.rows.length;
+						if( returnL > 0 )
+							{
+								for (var k=0; k<returnL; k++) {
+										var row = resultSet.rows.item(k);
+                                        //mobilens.storeOrderTypeChoices.each(function(storeRec){
+                                        //
+                                        //});
+                                        //mobilens.storeShipToChoices.add({filteredShipTo: row.recordValue1});
+                                        mobilens.storeOrderTypeChoices.updateStatus(row.recordValue1, row.recordStatus);
+										}
+							}
+					});
+    }); // end of the loading system state parameters   
 }
 
-loadSystemState();
+function shipToSelectAll() {
+                    //mobilens.filterPanel.hide();
+                    
+                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                        function(tx,resultsSet){
+                    
+                            mobilens.shipToList.refreshDisplay('hide');
+                            
+                            db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                               function(tx,resultsSet){
+                                    
+                                    mobilens.storeSAPShipToCustomers.filter('isSelected','');
+                                    mobilens.storeSAPShipToCustomers.each(function(clrRecord){
+                                        if( clrRecord.get('isSelected') != '1')
+                                        { clrRecord.toggleSelection(); }
+                                    });
+					                mobilens.storeSAPShipToCustomers.clearFilter();
+                    
+                                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                                        function(tx,resultsSet){
+                                            mobilens.shipToList.refreshDisplay('show');
+                                    },db.onError);});
+                                    
+                            },db.onError);});
+                    },db.onError);});
+}
+
+
+function shipToClearSelection() {
+                    
+                    db.transaction(function(tx){tx.executeSql("DELETE FROM tblSystemState where recordType = 'ShipToFilter' ",[],
+                    function(tx,resultsSet){
+                        console.log('System state table cleared.'); 
+                    },db.onError);});
+                    
+                    
+                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                        function(tx,resultsSet){
+                    
+                            mobilens.shipToList.refreshDisplay('hide');
+                            
+                            db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                               function(tx,resultsSet){
+                                    
+                                    mobilens.storeSAPShipToCustomers.filter('isSelected','1');
+                                    mobilens.storeSAPShipToCustomers.each(function(clrRecord){
+                                        if( clrRecord.get('isSelected') === '1')
+                                            { clrRecord.set('isSelected', ''); }
+                                        });
+					                mobilens.storeSAPShipToCustomers.clearFilter();
+                    
+                                    db.transaction(function(tx){tx.executeSql('SELECT "NOTHING"',[],
+                                        function(tx,resultsSet){
+                                            mobilens.shipToList.refreshDisplay('show');
+                                    },db.onError);});
+                                    
+                            },db.onError);});
+                    },db.onError);});
+}
+
+
+
 
