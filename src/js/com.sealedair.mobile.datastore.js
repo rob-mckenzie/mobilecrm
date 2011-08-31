@@ -504,6 +504,7 @@ mobilens.storeOrderTypeChoices = new Ext.data.Store({
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KR', value2 : 'Consignment Returns' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'DR', value2 : 'Debit Memo Request' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'RE', value2 : 'Returns' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'TA', value2 : 'Not Defined' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'OR', value2 : 'Standard order' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'YRE', value2 : 'Returns EPT' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZC', value2 : 'Call-Off Order' },

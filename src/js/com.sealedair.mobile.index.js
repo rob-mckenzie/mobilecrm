@@ -108,54 +108,48 @@ mobilens.orderList = new Ext.List( {
     },
 
     applyShipToFilter: function() {
+        mobilens.filterPanel.hide();
         db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-                            function (transaction, resultSet) {
-								mobilens.orderList.refreshDisplay('hideOrders' );
+            function (transaction, resultSet) {
+                mobilens.orderList.refreshDisplay('hideOrders' );
 								
-								db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-                                        function (transaction, resultSet) {
-                                            mobilens.storeSAPShipToCustomers.filter('isSelected','1');
-											mobilens.storeSAPOrders.clearFilter();
-											mobilens.storeSAPOrders.each(function(Orecord){
-                                                if( Orecord.get('isShipToFiltered')=='1' )
-                                                    { Orecord.set('isShipToFiltered',''); }
-												mobilens.storeSAPShipToCustomers.each(function(Srecord) {
-												    if( Orecord.get('shipToName')==Srecord.get('firstName') )
-														{
-														    Orecord.set('isShipToFiltered','1');
-                                                            return false;
-														}
-                                                });	
-											});
-											
+				db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                    function (transaction, resultSet) {
+                        mobilens.storeSAPShipToCustomers.filter('isSelected','1');
+						mobilens.storeSAPOrders.clearFilter();
+						mobilens.storeSAPOrders.each(function(Orecord){
+                            if( Orecord.get('isShipToFiltered')=='1' )
+                                { Orecord.set('isShipToFiltered',''); }
+							mobilens.storeSAPShipToCustomers.each(function(Srecord) {
+							    if( Orecord.get('shipToName')==Srecord.get('firstName') )
+								    {
+									    // run an orderType check here first before setting filter state
+                                        Orecord.set('isShipToFiltered','1');
+                                        return false;
+									}
+                            });	
+						});
                                         
-                                            db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-                                                    function (transaction, resultSet) {
-                                                    //if( mobilens.storeSAPShipToCustomers.getCount() > 0 )
-                                                    //{
-                                                        mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
-                                                        mobilens.orderList.scroller.scrollTo({x:0,y:0});
-                                                    //}   
-                                                    mobilens.storeSAPShipToCustomers.clearFilter();	
+                        db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                            function (transaction, resultSet) {
+                                mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
+                                mobilens.orderList.scroller.scrollTo({x:0,y:0});
+                                mobilens.storeSAPShipToCustomers.clearFilter();	
                                                     
-                                                db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-                                                    function (transaction, resultSet) {
-                                                    
-                                                     mobilens.orderList.applyStoreSort( mobilens.orderSort );
+                                db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                                    function (transaction, resultSet) {
+                                        mobilens.orderList.applyStoreSort( mobilens.orderSort );
                                                      
-                                                     db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
-                                                        function (transaction, resultSet) {
-                                                    
-                                                            mobilens.orderList.refreshDisplay('displayOrders' );
+                                            db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
+                                                function (transaction, resultSet) {
+                                                    mobilens.orderList.refreshDisplay('displayOrders' );
                                                  
-                                                    });});
                                                 });});
-                                            });});
-								});});
-					});});
-					mobilens.filterPanel.hide();
-        
-    },
+                                    });});
+                            });});
+				    });});
+            });});   
+    }, // end of applyShipToFilter function
 
     applyStoreSort: function(t) {
         mobilens.orderList.scroller.scrollTo({x:0,y:0});
