@@ -1,4 +1,4 @@
-// # ver 259
+// # ver 261
 
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
@@ -23,19 +23,19 @@ db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS '+mobilens
                 db.transaction(function(tx){tx.executeSql('DELETE FROM tblLogin',[],
                     function(tx,resultsSet){
                         console.log('user table upgrade complete.');  //DELETE FROM tblSystemState 
-                    },db.onError)});
-            },db.onError)});
-    },db.onError)});
+                    },db.onError);});
+            },db.onError);});
+    },db.onError);});
 
 
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSoldTo (soldto TEXT,JSONSoldTo TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSalesArea (salesorg TEXT, division TEXT, distchannel,JSONSalesArea TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblShipTo (shipto TEXT,salesorg TEXT, division TEXT, distchannel TEXT, JSONShipTo TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblOrders (ordernum TEXT,JSONOrderHeader TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblOrders2 (ordernum TEXT,JSONOrderHeader2 TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDetails (ordernum TEXT, itemnum TEXT,JSONOrderDetail TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDeliveries (ordernum TEXT, itemnum TEXT,deliverynum TEXT, JSONDeliveryDetail TEXT,refreshed TEXT)',[],[],db.onError)});
-db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSystemState (recordType TEXT, recordStatus TEXT,recordValue1 TEXT, recordValue2 TEXT,recordValue3 TEXT)',[],[],db.onError)});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSoldTo (soldto TEXT,JSONSoldTo TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSalesArea (salesorg TEXT, division TEXT, distchannel,JSONSalesArea TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblShipTo (shipto TEXT,salesorg TEXT, division TEXT, distchannel TEXT, JSONShipTo TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblOrders (ordernum TEXT,JSONOrderHeader TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblOrders2 (ordernum TEXT,JSONOrderHeader2 TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDetails (ordernum TEXT, itemnum TEXT,JSONOrderDetail TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblDeliveries (ordernum TEXT, itemnum TEXT,deliverynum TEXT, JSONDeliveryDetail TEXT,refreshed TEXT)',[],[],db.onError);});
+db.transaction(function(tx){tx.executeSql('CREATE TABLE IF NOT EXISTS tblSystemState (recordType TEXT, recordStatus TEXT,recordValue1 TEXT, recordValue2 TEXT,recordValue3 TEXT)',[],[],db.onError);});
 
 function getLoginCredentials() {
 
@@ -45,13 +45,15 @@ function getLoginCredentials() {
 			function (transaction, resultSet) {
 				for (var i=0; i<resultSet.rows.length; i++) {
 					var row = resultSet.rows.item(i);   
-					orderInfo[i] = [row["creds"], ];
+					//orderInfo[i] = [row["creds"], ];
+                    orderInfo[i] = row.creds;
 					mobilens.SAMuserStore.add(JSON.parse(orderInfo[i]));
 				}
 				
 				if( mobilens.SAMuserStore.getCount() < 1 )
-					{ mobilens.SAMuserStore.add({userName: '',password: '',lastUpdated:'', numOfDays:'0',lastResponse:'empty'});
-					toggleUserPanel('1');
+					{ 
+                        mobilens.SAMuserStore.add({userName: '',password: '',lastUpdated:'', numOfDays:'0',lastResponse:'empty'});
+					    mobilens.userPanel.toggleUserPanel('1');
 					}
 				}
 		);
