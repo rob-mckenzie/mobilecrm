@@ -1,4 +1,4 @@
-// # ver 259
+// # ver 260
 
 
 loadSystemState();
@@ -109,10 +109,12 @@ mobilens.orderList = new Ext.List( {
 
     applyShipToFilter: function() {
         mobilens.filterPanel.hide();
+        
         db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
             function (transaction, resultSet) {
                 mobilens.orderList.refreshDisplay('hideOrders' );
-								
+				mobilens.storeOrderTypeChoices.filter('recordStatus','Active');
+                
 				db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
                     function (transaction, resultSet) {
                         mobilens.storeSAPShipToCustomers.filter('isSelected','1');
@@ -124,14 +126,21 @@ mobilens.orderList = new Ext.List( {
 							    if( Orecord.get('shipToName')==Srecord.get('firstName') )
 								    {
 									    // run an orderType check here first before setting filter state
-                                        Orecord.set('isShipToFiltered','1');
-                                        return false;
+                                        mobilens.storeOrderTypeChoices.each( function(ocRec){
+                                            if ( Orecord.get('salesDocumentType') === ocRec.get('value1'))
+                                                { 
+                                                    Orecord.set('isShipToFiltered','1');
+                                                    return false;   // once the order type record is located there is no need to continue with the 'each' loop
+                                                }
+                                        });
+                                        return false;  // once the customer record is located there is no need to continue with the 'each' loop
 									}
                             });	
 						});
                                         
                         db.transaction(function(transaction){transaction.executeSql('SELECT "now" ', [],
                             function (transaction, resultSet) {
+                                mobilens.storeOrderTypeChoices.clearFilter();
                                 mobilens.storeSAPOrders.filter('isShipToFiltered', '1');
                                 mobilens.orderList.scroller.scrollTo({x:0,y:0});
                                 mobilens.storeSAPShipToCustomers.clearFilter();	
