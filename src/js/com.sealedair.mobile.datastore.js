@@ -424,7 +424,7 @@ Ext.regModel('modelSAPOrders', {
 
             formatData: function(refreshDate){
                 var crazyTrain = new Date( refreshDate );
-                this.set({refreshed: crazyTrain.getFullYear() + '-' + crazyTrain.getMonth() + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() });
+                this.set({refreshed: crazyTrain.getFullYear() + ' - ' + ( crazyTrain.getMonth() +1) + ' - ' + crazyTrain.getDate() + '  ' + crazyTrain.toLocaleTimeString() });
                 this.set('documentNumberTrim', removeLeadingZero( this.get('documentNumber') ) );
             }
 });

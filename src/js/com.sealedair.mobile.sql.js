@@ -123,7 +123,7 @@ function getOrderDetail (sTarget) {
 										{
 											var crazyTrain = new Date([row.refreshed ] );
                                             //var crazyTrain = new Date([row["refreshed"], ] );
-											currRec.set('itemsRefreshed', crazyTrain.getFullYear() + '-' + crazyTrain.getMonth() + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() );
+											currRec.set('itemsRefreshed', crazyTrain.getFullYear() + '-' + (crazyTrain.getMonth()+1) + '-' + crazyTrain.getDate() + ' ' + crazyTrain.toLocaleTimeString() );
 											
 										}
 										}
