@@ -1,4 +1,4 @@
-// # ver 263
+// # ver 265
 
 mobilens.orderSort = '';
 mobilens.pageSize = 50;
@@ -512,6 +512,7 @@ mobilens.storeOrderTypeChoices = new Ext.data.Store({
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZEP', value2 : 'Order Eqpt. Pay Term' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZI01', value2 : 'IntraCo Betw. plants' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZK', value2 : 'Commission Trans Req' },
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZMO', value2 : 'Master Order-SchedAg' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZRE', value2 : 'Returns Interim' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'ZREP', value2 : 'Returns' }        
         ],
