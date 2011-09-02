@@ -1,4 +1,4 @@
-// # ver 265
+// # ver 266
 
 var db = openDatabase("Mobile Order Status", "1.0", "Mobile Order Status", 50*1024*1024);
 var orderInfo = [];
@@ -553,5 +553,29 @@ function shipToClearSelection() {
 }
 
 
+function refreshOrderListDetails() {
+    
+    //SACCRM.Main.ui.items.items[0].items.items[0].scroller.scrollTo({x:0,y:0});
+    var orderList = [];
+    
+    mobilens.storeSAPOrders.each(function(record) {
+        var orderRecDetailNumber = record.get("documentNumber");
+        var recIndex = record.store.indexOf(record);
+        orderList[recIndex] = orderRecDetailNumber;
+    });
 
+    db.transaction(function(tx)
+    {	soapSAPLogin( mobilens.SAMuserStore.first().get('userName'), mobilens.SAMuserStore.first().get('password'),'0');
+        db.transaction(function(tx)
+        {	soapSAPOrderDetails( mobilens.SAMuserStore.first().get('userName'), mobilens.SAMuserStore.first().get('password'),orderList);
+            db.transaction(function(tx)
+            {	getOrderDetail ('');
+                db.transaction(function(tx)
+                {	mobilens.storeSAPOrders.clearFilter();
+                    db.transaction(function(tx)
+                    {	mobilens.orderList.refreshDisplay('displayOrders' );
+                        mobilens.orderList.applyShipToFilter();
+    }); }); }); }); });
+    
+}
 

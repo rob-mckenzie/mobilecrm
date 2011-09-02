@@ -1,4 +1,4 @@
-// # ver 265
+// # ver 266
 
 
 loadSystemState();
@@ -645,7 +645,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
           	        	   handler: function() {
           	        		   
           	        		 var orderList = []; 
-          	        		   
+          	                                                        		   
           	        		 db.transaction(function(tx)
           	        			{	mobilens.orderList.refreshDisplay('hideOrders' );
           	        			
@@ -653,25 +653,39 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
 		   								{	mobilens.storeSAPOrders.clearFilter();
 		   									mobilens.storeSAPOrders.filter('isSelected', '1');
 		   									if ( mobilens.storeSAPOrders.getCount() < 1)
-		   										{ 
+		   										{
+
 		   										mobilens.storeSAPOrders.clearFilter(); 
                                                 if( mobilens.disclose === '1')
                                                 { 
                                                     mobilens.storeSAPOrders.filter('orderDisclose','1');
-                                                    mobilens.orderList.refreshDisplay('expand');
+                                                    //mobilens.orderList.refreshDisplay('expand');
                                                 }
                                                 else
                                                 {
-    	   										    mobilens.orderList.refreshDisplay('displayOrders' );
+    	   										    //mobilens.orderList.refreshDisplay('displayOrders' );
                                                     mobilens.orderList.applyShipToFilter();                                                    
                                                 }
-		   										Ext.Msg.width = 280;
-		   										Ext.Msg.alert('Update Order Items', 'Please select one or more orders.');
+                                                Ext.Msg.width = 400;
+                                                Ext.Msg.confirm('Update All Orders?','You did not select any orders. Do you want to update all orders on this page?',function(resp){
+                                                    if ( resp === 'yes' )
+                                                        { 
+                                                            
+                                                            db.transaction(function(tx){ 
+                                                                mobilens.orderList.refreshDisplay('hideOrders' );    
+                                                                db.transaction(function(tx){ refreshOrderListDetails(); });
+                                                            });
+                                                            
+                                                        }
+                                                });
+		   										//Ext.Msg.alert('Update Order Items', 'Please select one or more orders.');
 		   										}
 		   									else
 		   										{
+                                                refreshOrderListDetails();
+                                                
 		   										//SACCRM.Main.ui.items.items[0].items.items[0].scroller.scrollTo({x:0,y:0});
-		   										
+		   										/*
 		   										mobilens.storeSAPOrders.each(function(record) {
 		   											var orderRecDetailNumber = record.get("documentNumber");
 		   											var recIndex = record.store.indexOf(record);
@@ -690,6 +704,7 @@ Ext.ux.UniversalUI = Ext.extend(Ext.Panel, {
 		   																								{	mobilens.orderList.refreshDisplay('displayOrders' );
                                                                                                            mobilens.orderList.applyShipToFilter();
                                      		              		   						}); }); }); }); });
+                                                                                              */
 		   										} // end of ELSE statement for getCount < 1
 		   								}); });  // end of this db transaction string
           	        	   }  // end of get detail button handler
