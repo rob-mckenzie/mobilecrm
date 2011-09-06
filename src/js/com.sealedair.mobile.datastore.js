@@ -1,4 +1,4 @@
-// # ver 266
+// # ver 269
 
 mobilens.orderSort = '';
 mobilens.pageSize = 50;
@@ -496,6 +496,7 @@ mobilens.storeShipToChoices = new Ext.data.Store({
 mobilens.storeOrderTypeChoices = new Ext.data.Store({
     model: 'modelSystemState',
     data : [
+        { recordType: 'orderType', recordStatus: 'Inactive', value1: '*', value2 : 'All' },        
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'CR', value2 : 'Credit Memo Request' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KA', value2 : 'Consignment Pick-up' },
         { recordType: 'orderType', recordStatus: 'Inactive', value1: 'KB', value2 : 'Consignment Fill-up' },

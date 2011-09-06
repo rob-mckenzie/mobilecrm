@@ -1,4 +1,4 @@
-// # ver 266
+// # ver 269
 
 
 loadSystemState();
@@ -127,7 +127,7 @@ mobilens.orderList = new Ext.List( {
 								    {
 									    // run an orderType check here first before setting filter state
                                         mobilens.storeOrderTypeChoices.each( function(ocRec){
-                                            if ( Orecord.get('salesDocumentType') === ocRec.get('value1'))
+                                            if ( Orecord.get('salesDocumentType') === ocRec.get('value1') || ocRec.get('value1') === '*' )
                                                 { 
                                                     Orecord.set('isShipToFiltered','1');
                                                     return false;   // once the order type record is located there is no need to continue with the 'each' loop
